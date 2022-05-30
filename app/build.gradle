@@ -60,4 +60,8 @@ dependencies {
     implementation 'androidx.compose.material:material:1.1.1'
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+
+    // AAT
+    implementation "com.ably.tracking:subscribing-sdk:$aat_version"
+    implementation "com.ably.tracking:ui-sdk:$aat_version"
 }
