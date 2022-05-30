@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AAT Subscriber Demo</string>
+    <string name="image_content_description_header_logo_with_title">Ably logo with AAT title</string>
 </resources>

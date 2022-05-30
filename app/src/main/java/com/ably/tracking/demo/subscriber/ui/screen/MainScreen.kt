@@ -1,36 +1,39 @@
 package com.ably.tracking.demo.subscriber.ui.screen
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 
 @Composable
-fun MainScreen() {
-    AATSubscriberDemoTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
-        ) {
-            Greeting("Android")
-        }
+fun MainScreen() = AATSubscriberDemoTheme {
+    Scaffold(
+        topBar = { AATAppBar() }
+    ) {
+
     }
 }
 
+@Preview
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    AATSubscriberDemoTheme {
-        Greeting("Android")
+fun AATAppBar() = AATSubscriberDemoTheme {
+    TopAppBar(
+        contentPadding = PaddingValues(horizontal = 8.dp)
+    ) {
+        Image(
+            painter = painterResource(
+                id = R.drawable.header_logo_with_title
+            ),
+            contentDescription = stringResource(
+                id = R.string.image_content_description_header_logo_with_title
+            )
+        )
     }
 }
