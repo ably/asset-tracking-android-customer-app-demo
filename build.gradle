@@ -41,4 +41,6 @@ allprojects {
             }
         }
     }
+
+    apply from: "$rootDir/detekt.gradle"
 }
