@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">AAT Subscriber Demo</string>
     <string name="image_content_description_header_logo_with_title">Ably logo with AAT title</string>
+    <string name="loading">AAT is loading…</string>
+    <string name="trackable_state_label_normal">Trackable state:</string>
+    <string name="trackable_state_label_error">Error:</string>
+    <string name="trackable_state_no_data_reported">No trackable state reported</string>
+    <string name="trackable_state_online">Online</string>
+    <string name="trackable_state_publishing">Publishing</string>
+    <string name="trackable_state_offline">Offline</string>
+    <string name="trackable_state_failed">Failed</string>
 </resources>
