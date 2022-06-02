@@ -1,5 +1,6 @@
 package com.ably.tracking.demo.subscriber.domain
 
+import com.ably.tracking.LocationUpdate
 import com.ably.tracking.TrackableState
 import com.ably.tracking.connection.Authentication
 import com.ably.tracking.connection.ConnectionConfiguration
@@ -28,4 +29,6 @@ class AssetTracker {
     }
 
     fun observeTrackableState(): Flow<TrackableState> = subscriber.trackableStates
+
+    fun observeTrackableLocation(): Flow<LocationUpdate> = subscriber.locations
 }
