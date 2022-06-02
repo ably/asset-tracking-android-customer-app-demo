@@ -2,6 +2,16 @@
     <string name="app_name">AAT Subscriber Demo</string>
     <string name="image_content_description_header_logo_with_title">Ably logo with AAT title</string>
     <string name="loading">AAT is loading…</string>
+    <string name="trackable_location_no_data_reported">No trackable location reported</string>
+    <string name="trackable_location_latitude">Latitude:</string>
+    <string name="trackable_location_longitude">Longitude:</string>
+    <string name="trackable_location_bearing">Bearing:</string>
+    <string name="trackable_location_altitude">Altitude:</string>
+    <string name="trackable_location_accuracy">Accuracy:</string>
+    <string name="trackable_location_speed">Speed:</string>
+    <string name="trackable_location_time">Time:</string>
+    <string name="trackable_location_skipped_locations">Skipped locations:</string>
+
     <string name="trackable_state_label_normal">Trackable state:</string>
     <string name="trackable_state_label_error">Error:</string>
     <string name="trackable_state_no_data_reported">No trackable state reported</string>
