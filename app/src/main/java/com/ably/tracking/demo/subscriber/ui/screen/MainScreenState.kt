@@ -7,5 +7,4 @@ data class MainScreenState(
     val isAssetTrackerReady: Boolean = false,
     val trackableState: TrackableState? = null,
     val trackableLocation: LocationUpdate? = null
-
 )
