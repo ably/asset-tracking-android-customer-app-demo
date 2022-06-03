@@ -68,7 +68,7 @@ fun MainScreen(mainViewModel: MainViewModel = viewModel()) = AATSubscriberDemoTh
 
         Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->
             if (isAssetTrackerReady) {
-                MainScreenContent(state = state.value)
+                MainScreenContent(viewModel = mainViewModel)
             } else {
                 MainScreenLoadingIndicator()
             }
@@ -111,22 +111,25 @@ fun MainScreenLoadingIndicator() = AATSubscriberDemoTheme {
 }
 
 
-@Preview
 @Composable
 fun MainScreenContent(
-    @PreviewParameter(MainScreenStatePreview::class) state: MainScreenState
+    viewModel: MainViewModel
 ) = AATSubscriberDemoTheme {
     Column(
         modifier = Modifier
-            .padding(8.dp)
             .fillMaxSize()
     ) {
-        TrackableStateRow(state = state)
-        when (state.trackableState) {
-            is TrackableState.Offline -> TrackableStateErrorRow(state = state)
-            is TrackableState.Failed -> TrackableStateErrorRow(state = state)
+        val viewState = viewModel.state.collectAsState().value
+
+        TrackableStateRow(state = viewState)
+
+        when (viewState.trackableState) {
+            is TrackableState.Offline -> TrackableStateErrorRow(state = viewState)
+            is TrackableState.Failed -> TrackableStateErrorRow(state = viewState)
             else -> Unit
         }
+
+        MainScreenMap(viewModel = viewModel)
     }
 }
 
@@ -136,7 +139,9 @@ fun TrackableStateRow(
     @PreviewParameter(MainScreenStatePreview::class) state: MainScreenState
 ) = AATSubscriberDemoTheme {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
     ) {
         Text(
             text = stringResource(
@@ -169,7 +174,9 @@ fun TrackableStateErrorRow(
     @PreviewParameter(MainScreenStatePreview::class) state: MainScreenState
 ) = AATSubscriberDemoTheme {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
     ) {
         Text(
             text = stringResource(
