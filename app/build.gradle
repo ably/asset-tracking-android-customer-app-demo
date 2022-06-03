@@ -18,6 +18,9 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        def GOOGLE_MAPS_API_KEY = localProperties.getProperty("GOOGLE_MAPS_API_KEY")
+        manifestPlaceholders.GOOGLE_MAPS_API_KEY = GOOGLE_MAPS_API_KEY
     }
 
     buildTypes {
@@ -44,7 +47,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.1.1'
+        kotlinCompilerExtensionVersion compose_ui_version
     }
     packagingOptions {
         resources {
@@ -68,6 +71,10 @@ dependencies {
     implementation 'androidx.compose.material:material:1.1.1'
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+
+    // Maps
+    implementation "com.google.maps.android:maps-compose:2.2.0"
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
     // AAT
     implementation "com.ably.tracking:subscribing-sdk:$aat_version"
