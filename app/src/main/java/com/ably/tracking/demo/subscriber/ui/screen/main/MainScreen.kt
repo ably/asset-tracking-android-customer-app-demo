@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.ui.screen
+package com.ably.tracking.demo.subscriber.ui.screen.main
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
@@ -39,6 +39,7 @@ import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.common.toStringRes
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LocationUpdateBottomSheet
+import com.ably.tracking.demo.subscriber.ui.screen.main.map.MainScreenMap
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 
 @OptIn(ExperimentalMaterialApi::class)

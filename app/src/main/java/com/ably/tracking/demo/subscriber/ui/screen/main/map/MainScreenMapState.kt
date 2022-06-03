@@ -1,0 +1,18 @@
+package com.ably.tracking.demo.subscriber.ui.screen.main.map
+
+import com.ably.tracking.ui.animation.Position
+import com.google.android.gms.maps.model.LatLng
+
+data class MainScreenMapState(
+    val location: Position? = null,
+    val cameraPosition: Position? = null
+) {
+
+    fun locationLatLng(): LatLng? = location?.let {
+        LatLng(it.latitude, it.longitude)
+    }
+
+    fun cameraLatLng(): LatLng? = cameraPosition?.let {
+        LatLng(it.latitude, it.longitude)
+    }
+}
