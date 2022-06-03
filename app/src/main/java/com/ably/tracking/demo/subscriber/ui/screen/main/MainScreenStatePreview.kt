@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.ui.screen
+package com.ably.tracking.demo.subscriber.ui.screen.main
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.ably.tracking.ErrorInformation
