@@ -15,9 +15,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController: NavHostController = rememberNavController()
-            NavHost(navController = navController, startDestination = "trackableId") {
-                composable("trackableId") { TrackableIdScreen(navController = navController) }
-                composable("main") { MainScreen() }
+            NavHost(
+                navController = navController,
+                startDestination = Routes.TrackableId.pathWithParams
+            ) {
+                composable(Routes.TrackableId.pathWithParams) { TrackableIdScreen(navController = navController) }
+                composable(Routes.Main.pathWithParams) { backStackEntry ->
+                    MainScreen(
+                        trackableId = backStackEntry.arguments!!.getString(Routes.Main.paramTrackableId)!!
+                    )
+                }
             }
         }
     }

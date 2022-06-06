@@ -41,37 +41,38 @@ import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MainScreen(mainViewModel: MainViewModel = viewModel()) = AATSubscriberDemoTheme {
-    val viewState: State<MainScreenState> = mainViewModel.state.collectAsState()
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
-    )
+fun MainScreen(trackableId: String, mainViewModel: MainViewModel = viewModel()) =
+    AATSubscriberDemoTheme {
+        val viewState: State<MainScreenState> = mainViewModel.state.collectAsState()
+        val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+            bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+        )
 
-    BottomSheetScaffold(
-        scaffoldState = bottomSheetScaffoldState,
-        sheetContent = {
-            LocationUpdateBottomSheet(locationUpdate = viewState.value.trackableLocation)
-        },
-        sheetPeekHeight = LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT,
-        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        topBar = { AATAppBar() }
-    ) {
+        BottomSheetScaffold(
+            scaffoldState = bottomSheetScaffoldState,
+            sheetContent = {
+                LocationUpdateBottomSheet(locationUpdate = viewState.value.trackableLocation)
+            },
+            sheetPeekHeight = LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT,
+            sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+            topBar = { AATAppBar() }
+        ) {
 
-        val state = mainViewModel.state.collectAsState()
+            val state = mainViewModel.state.collectAsState()
 
-        LaunchedEffect(key1 = "BEGIN_TRACKING") {
-            mainViewModel.beginTracking()
-        }
+            LaunchedEffect(key1 = "BEGIN_TRACKING") {
+                mainViewModel.beginTracking()
+            }
 
-        Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->
-            if (isAssetTrackerReady) {
-                MainScreenContent(viewModel = mainViewModel)
-            } else {
-                MainScreenLoadingIndicator()
+            Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->
+                if (isAssetTrackerReady) {
+                    MainScreenContent(viewModel = mainViewModel)
+                } else {
+                    MainScreenLoadingIndicator()
+                }
             }
         }
     }
-}
 
 @Preview
 @Composable

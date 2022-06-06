@@ -2,6 +2,7 @@
     <string name="app_name">AAT Subscriber Demo</string>
     <string name="image_content_description_header_logo_with_title">Ably logo with AAT title</string>
     <string name="loading">AAT is loading…</string>
+    <string name="confirm">Confirm</string>
 
     <string name="trackable_id">Trackable ID</string>
 
