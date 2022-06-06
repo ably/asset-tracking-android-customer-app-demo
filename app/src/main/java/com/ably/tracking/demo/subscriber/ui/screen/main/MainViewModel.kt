@@ -22,9 +22,9 @@ class MainViewModel : ViewModel() {
     val state: MutableStateFlow<MainScreenState> = MutableStateFlow(MainScreenState())
     val mapState: MutableStateFlow<MainScreenMapState> = MutableStateFlow(MainScreenMapState())
 
-    fun beginTracking() = viewModelScope.launch {
-        state.emit(state.value.copy(isAssetTrackerReady = false))
-        assetTracker.startTracking()
+    fun beginTracking(trackableId: String) = viewModelScope.launch {
+        state.emit(state.value.copy(trackableId = trackableId, isAssetTrackerReady = false))
+        assetTracker.startTracking(trackableId)
         state.emit(state.value.copy(isAssetTrackerReady = true))
         assetTracker.observeTrackableState()
             .onEach(::onTrackableStateChanged)
