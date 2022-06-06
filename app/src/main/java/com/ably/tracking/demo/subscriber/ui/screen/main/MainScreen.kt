@@ -61,7 +61,7 @@ fun MainScreen(trackableId: String, mainViewModel: MainViewModel = viewModel()) 
             val state = mainViewModel.state.collectAsState()
 
             LaunchedEffect(key1 = "BEGIN_TRACKING") {
-                mainViewModel.beginTracking()
+                mainViewModel.beginTracking(trackableId)
             }
 
             Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->

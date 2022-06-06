@@ -20,12 +20,11 @@ class AssetTracker {
         )
     )
 
-    // FIXME: Update with real tracking ID
-    suspend fun startTracking() {
+    suspend fun startTracking(trackableId: String) {
         subscriber = Subscriber.subscribers()
             .connection(connectionConfiguration)
             .logHandler(SubscriberLogHandler)
-            .trackingId("1234")
+            .trackingId(trackableId)
             .start()
     }
 

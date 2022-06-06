@@ -5,6 +5,7 @@ import com.ably.tracking.Resolution
 import com.ably.tracking.TrackableState
 
 data class MainScreenState(
+    val trackableId: String = "",
     val isAssetTrackerReady: Boolean = false,
     val trackableState: TrackableState? = null,
     val resolution: Resolution? = null,
