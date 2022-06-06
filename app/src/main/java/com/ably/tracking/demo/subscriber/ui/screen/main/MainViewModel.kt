@@ -60,9 +60,17 @@ class MainViewModel : ViewModel() {
 
     private suspend fun onAnimatedTrackablePositionChanged(assetTrackerAnimatorPosition: AssetTrackerAnimatorPosition) {
         mapState.emit(
-            MainScreenMapState(
+            mapState.value.copy(
                 location = assetTrackerAnimatorPosition.location,
                 cameraPosition = assetTrackerAnimatorPosition.camera
+            )
+        )
+    }
+
+    suspend fun onZoomedToTrackablePosition() {
+        mapState.emit(
+            mapState.value.copy(
+                isZoomedInToTrackable = true
             )
         )
     }
