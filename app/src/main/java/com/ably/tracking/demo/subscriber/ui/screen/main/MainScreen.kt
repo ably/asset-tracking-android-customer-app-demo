@@ -1,10 +1,8 @@
 package com.ably.tracking.demo.subscriber.ui.screen.main
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +17,6 @@ import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,7 +25,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -41,6 +37,7 @@ import com.ably.tracking.demo.subscriber.ui.bottomsheet.LOCATION_UPDATE_BOTTOM_S
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LocationUpdateBottomSheet
 import com.ably.tracking.demo.subscriber.ui.screen.main.map.MainScreenMap
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
+import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -73,23 +70,6 @@ fun MainScreen(mainViewModel: MainViewModel = viewModel()) = AATSubscriberDemoTh
                 MainScreenLoadingIndicator()
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun AATAppBar() = AATSubscriberDemoTheme {
-    TopAppBar(
-        contentPadding = PaddingValues(horizontal = 8.dp)
-    ) {
-        Image(
-            painter = painterResource(
-                id = R.drawable.header_logo_with_title
-            ),
-            contentDescription = stringResource(
-                id = R.string.image_content_description_header_logo_with_title
-            )
-        )
     }
 }
 
