@@ -11,7 +11,10 @@ class TrackableIdViewModel : ViewModel() {
 
     fun onTrackableIdChanged(value: String) = viewModelScope.launch {
         state.emit(
-            state.value.copy(trackableId = value)
+            state.value.copy(
+                trackableId = value,
+                isConfirmButtonEnabled = value.isNotBlank()
+            )
         )
     }
 }
