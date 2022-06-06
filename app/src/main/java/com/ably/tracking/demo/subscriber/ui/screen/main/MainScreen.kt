@@ -46,7 +46,6 @@ import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 @Composable
 fun MainScreen(mainViewModel: MainViewModel = viewModel()) = AATSubscriberDemoTheme {
     val viewState: State<MainScreenState> = mainViewModel.state.collectAsState()
-
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
