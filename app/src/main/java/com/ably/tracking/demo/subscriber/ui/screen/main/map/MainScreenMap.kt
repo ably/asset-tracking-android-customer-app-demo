@@ -32,18 +32,18 @@ fun MainScreenMap(
 
     /**
      * This is a hack that solves animation stutters
-     * See https://github.com/ably/ably-asset-tracking-android/issues/680
-     * and https://github.com/ably/ably-asset-tracking-android/issues/681
+     * See https://github.com/ably/ably-asset-tracking-android/issues/681
+     * and https://github.com/ably/ably-asset-tracking-android/issues/683
      */
     SideEffect {
         coroutineScope.launch {
             when {
                 /**
-                 * THis handles the initial state of map, when it's not zoomed to anything,
+                 * This handles the initial state of map, when it's not zoomed to anything,
                  * and not already zooming, it should zoom to the trackable location,
                  * before we start animating between the provided camera positions
                  */
-                !mapState.isZoomedInToTrackable && mapState.location != null && !cameraPositionState.isMoving -> {
+                mapState.isInInitialState && !cameraPositionState.isMoving -> {
                     animateMapToLocation(
                         cameraPositionState,
                         mapState.locationLatLng()!!,

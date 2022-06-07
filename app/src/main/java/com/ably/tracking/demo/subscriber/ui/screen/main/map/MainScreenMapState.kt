@@ -9,6 +9,8 @@ data class MainScreenMapState(
     val cameraPosition: Position? = null
 ) {
 
+    val isInInitialState = !isZoomedInToTrackable && location != null && cameraPosition != null
+
     fun locationLatLng(): LatLng? = location?.let {
         LatLng(it.latitude, it.longitude)
     }
