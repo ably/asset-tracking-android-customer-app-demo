@@ -6,9 +6,9 @@ sealed interface Routes {
         const val pathWithParams = "trackableId/"
     }
 
-    object Main : Routes {
+    object Dashboard : Routes {
         const val paramTrackableId = "trackableId"
-        const val path = "main/"
-        const val pathWithParams = "main/{$paramTrackableId}"
+        const val path = "dashboard/"
+        const val pathWithParams = "dashboard/{$paramTrackableId}"
     }
 }

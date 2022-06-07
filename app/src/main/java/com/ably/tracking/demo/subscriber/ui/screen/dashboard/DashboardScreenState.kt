@@ -1,10 +1,10 @@
-package com.ably.tracking.demo.subscriber.ui.screen.main
+package com.ably.tracking.demo.subscriber.ui.screen.dashboard
 
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
 import com.ably.tracking.TrackableState
 
-data class MainScreenState(
+data class DashboardScreenState(
     val trackableId: String = "",
     val isAssetTrackerReady: Boolean = false,
     val trackableState: TrackableState? = null,

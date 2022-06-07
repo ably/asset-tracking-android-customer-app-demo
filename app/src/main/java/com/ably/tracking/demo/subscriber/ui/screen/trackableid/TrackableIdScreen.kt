@@ -80,7 +80,7 @@ fun TrackableIdScreenContent(
                 contentColor = Color.Black
             ),
             onClick = {
-                navController.navigate(Routes.Main.path + viewState.value.trackableId)
+                navController.navigate(Routes.Dashboard.path + viewState.value.trackableId)
             }
         ) {
             Text(text = stringResource(id = R.string.confirm))

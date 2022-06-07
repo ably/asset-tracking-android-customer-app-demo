@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.ui.screen.main
+package com.ably.tracking.demo.subscriber.ui.screen.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,19 +8,20 @@ import com.ably.tracking.TrackableState
 import com.ably.tracking.demo.subscriber.domain.AssetTracker
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimator
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimatorPosition
-import com.ably.tracking.demo.subscriber.ui.screen.main.map.MainScreenMapState
+import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class DashboardViewModel : ViewModel() {
 
     private val assetTracker: AssetTracker = AssetTracker()
     private val assetTrackerAnimator: AssetTrackerAnimator = AssetTrackerAnimator()
 
-    val state: MutableStateFlow<MainScreenState> = MutableStateFlow(MainScreenState())
-    val mapState: MutableStateFlow<MainScreenMapState> = MutableStateFlow(MainScreenMapState())
+    val state: MutableStateFlow<DashboardScreenState> = MutableStateFlow(DashboardScreenState())
+    val mapState: MutableStateFlow<DashboardScreenMapState> =
+        MutableStateFlow(DashboardScreenMapState())
 
     fun beginTracking(trackableId: String) = viewModelScope.launch {
         state.emit(state.value.copy(trackableId = trackableId, isAssetTrackerReady = false))
