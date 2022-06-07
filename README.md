@@ -14,6 +14,8 @@ the project root:
 - `MAPBOX_DOWNLOADS_TOKEN`: On
   the [Mapbox Access Tokens page](https://account.mapbox.com/access-tokens/), create a token with
   the `DOWNLOADS:READ` secret scope.
+- `GOOGLE_MAPS_API_KEY`: Create an API key in Google Cloud, ensuring it has both `Geolocation`
+  and `Maps SDK for Android` API.
 
 To do this, create a file in the project root (if it doesn't exist already) named `local.properties`
 , and add the following values:
@@ -21,4 +23,5 @@ To do this, create a file in the project root (if it doesn't exist already) name
 ```bash
 ABLY_API_KEY=get_value_from_ably_dashboard
 MAPBOX_DOWNLOADS_TOKEN=create_token_with_downloads_read_secret_scope
+GOOGLE_MAPS_API_KEY=create_api_key_with_geolocation_maps_sdk
 ```
