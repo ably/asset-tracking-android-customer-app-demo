@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.Routes
@@ -31,7 +31,7 @@ import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
 @Composable
 fun TrackableIdScreen(
     navController: NavController,
-    viewModel: TrackableIdViewModel = viewModel()
+    viewModel: TrackableIdViewModel = hiltViewModel()
 ) = AATSubscriberDemoTheme {
     Scaffold(
         topBar = { AATAppBar() }

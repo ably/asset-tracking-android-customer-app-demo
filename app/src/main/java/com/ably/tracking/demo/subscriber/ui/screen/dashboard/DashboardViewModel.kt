@@ -9,15 +9,18 @@ import com.ably.tracking.demo.subscriber.domain.AssetTracker
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimator
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimatorPosition
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DashboardViewModel : ViewModel() {
-
-    private val assetTracker: AssetTracker = AssetTracker()
-    private val assetTrackerAnimator: AssetTrackerAnimator = AssetTrackerAnimator()
+@HiltViewModel
+class DashboardViewModel @Inject constructor(
+    private val assetTracker: AssetTracker,
+    private val assetTrackerAnimator: AssetTrackerAnimator
+) : ViewModel() {
 
     val state: MutableStateFlow<DashboardScreenState> = MutableStateFlow(DashboardScreenState())
     val mapState: MutableStateFlow<DashboardScreenMapState> =
