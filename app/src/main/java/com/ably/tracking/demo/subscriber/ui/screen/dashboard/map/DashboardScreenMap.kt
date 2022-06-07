@@ -12,12 +12,15 @@ import androidx.compose.ui.graphics.Color
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardViewModel
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.Circle
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
@@ -29,7 +32,8 @@ const val mapZoomLevel = 16F
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun DashboardScreenMap(
-    viewModel: DashboardViewModel
+    viewModel: DashboardViewModel,
+    locationSource: LocationSource
 ) = AATSubscriberDemoTheme {
     val mapState = viewModel.mapState.collectAsState().value
     val cameraPositionState = rememberCameraPositionState()
@@ -78,6 +82,10 @@ fun DashboardScreenMap(
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
+        properties = MapProperties(
+            isMyLocationEnabled = locationPermissionState.status.isGranted
+        ),
+        locationSource = locationSource
     ) {
         if (mapState.location != null) {
             Circle(

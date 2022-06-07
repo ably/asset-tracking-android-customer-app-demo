@@ -7,12 +7,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ably.tracking.demo.subscriber.common.LocationProviderLocationSource
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardScreen
 import com.ably.tracking.demo.subscriber.ui.screen.trackableid.TrackableIdScreen
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var locationSource: LocationProviderLocationSource
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -24,7 +30,8 @@ class MainActivity : ComponentActivity() {
                 composable(Routes.TrackableId.pathWithParams) { TrackableIdScreen(navController = navController) }
                 composable(Routes.Dashboard.pathWithParams) { backStackEntry ->
                     DashboardScreen(
-                        trackableId = backStackEntry.arguments!!.getString(Routes.Dashboard.paramTrackableId)!!
+                        trackableId = backStackEntry.arguments!!.getString(Routes.Dashboard.paramTrackableId)!!,
+                        locationSource = locationSource
                     )
                 }
             }
