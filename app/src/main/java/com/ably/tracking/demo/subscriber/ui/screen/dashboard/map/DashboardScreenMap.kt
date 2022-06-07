@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.ui.screen.main.map
+package com.ably.tracking.demo.subscriber.ui.screen.dashboard.map
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -7,7 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.ably.tracking.demo.subscriber.ui.screen.main.MainViewModel
+import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardViewModel
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
@@ -23,8 +23,8 @@ const val shortAnimationDuration = 100
 const val mapZoomLevel = 16F
 
 @Composable
-fun MainScreenMap(
-    viewModel: MainViewModel
+fun DashboardScreenMap(
+    viewModel: DashboardViewModel
 ) = AATSubscriberDemoTheme {
     val mapState = viewModel.mapState.collectAsState().value
     val cameraPositionState = rememberCameraPositionState()

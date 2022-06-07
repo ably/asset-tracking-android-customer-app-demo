@@ -1,9 +1,9 @@
-package com.ably.tracking.demo.subscriber.ui.screen.main.map
+package com.ably.tracking.demo.subscriber.ui.screen.dashboard.map
 
 import com.ably.tracking.ui.animation.Position
 import com.google.android.gms.maps.model.LatLng
 
-data class MainScreenMapState(
+data class DashboardScreenMapState(
     val isZoomedInToTrackable: Boolean = false,
     val location: Position? = null,
     val cameraPosition: Position? = null

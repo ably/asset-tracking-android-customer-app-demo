@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.ui.screen.main
+package com.ably.tracking.demo.subscriber.ui.screen.dashboard
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Box
@@ -35,15 +35,15 @@ import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.common.toStringRes
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LocationUpdateBottomSheet
-import com.ably.tracking.demo.subscriber.ui.screen.main.map.MainScreenMap
+import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMap
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MainScreen(trackableId: String, mainViewModel: MainViewModel = viewModel()) =
+fun DashboardScreen(trackableId: String, dashboardViewModel: DashboardViewModel = viewModel()) =
     AATSubscriberDemoTheme {
-        val viewState: State<MainScreenState> = mainViewModel.state.collectAsState()
+        val viewState: State<DashboardScreenState> = dashboardViewModel.state.collectAsState()
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
         )
@@ -58,17 +58,17 @@ fun MainScreen(trackableId: String, mainViewModel: MainViewModel = viewModel()) 
             topBar = { AATAppBar() }
         ) {
 
-            val state = mainViewModel.state.collectAsState()
+            val state = dashboardViewModel.state.collectAsState()
 
             LaunchedEffect(key1 = "BEGIN_TRACKING") {
-                mainViewModel.beginTracking(trackableId)
+                dashboardViewModel.beginTracking(trackableId)
             }
 
             Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->
                 if (isAssetTrackerReady) {
-                    MainScreenContent(viewModel = mainViewModel)
+                    DashboardScreenContent(viewModel = dashboardViewModel)
                 } else {
-                    MainScreenLoadingIndicator()
+                    DashboardScreenLoadingIndicator()
                 }
             }
         }
@@ -76,7 +76,7 @@ fun MainScreen(trackableId: String, mainViewModel: MainViewModel = viewModel()) 
 
 @Preview
 @Composable
-fun MainScreenLoadingIndicator() = AATSubscriberDemoTheme {
+fun DashboardScreenLoadingIndicator() = AATSubscriberDemoTheme {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.align(Alignment.Center),
@@ -93,8 +93,8 @@ fun MainScreenLoadingIndicator() = AATSubscriberDemoTheme {
 
 
 @Composable
-fun MainScreenContent(
-    viewModel: MainViewModel
+fun DashboardScreenContent(
+    viewModel: DashboardViewModel
 ) = AATSubscriberDemoTheme {
     Column(
         modifier = Modifier
@@ -110,14 +110,14 @@ fun MainScreenContent(
             else -> Unit
         }
 
-        MainScreenMap(viewModel = viewModel)
+        DashboardScreenMap(viewModel = viewModel)
     }
 }
 
 @Preview
 @Composable
 fun TrackableStateRow(
-    @PreviewParameter(MainScreenStatePreview::class) state: MainScreenState
+    @PreviewParameter(DashboardScreenStatePreview::class) state: DashboardScreenState
 ) = AATSubscriberDemoTheme {
     Row(
         modifier = Modifier
@@ -152,7 +152,7 @@ fun TrackableStateRow(
 @Preview
 @Composable
 fun TrackableStateErrorRow(
-    @PreviewParameter(MainScreenStatePreview::class) state: MainScreenState
+    @PreviewParameter(DashboardScreenStatePreview::class) state: DashboardScreenState
 ) = AATSubscriberDemoTheme {
     Row(
         modifier = Modifier
