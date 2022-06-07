@@ -38,10 +38,15 @@ import com.ably.tracking.demo.subscriber.ui.bottomsheet.LocationUpdateBottomShee
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMap
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
+import com.google.android.gms.maps.LocationSource
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DashboardScreen(trackableId: String, dashboardViewModel: DashboardViewModel = hiltViewModel()) =
+fun DashboardScreen(
+    trackableId: String,
+    locationSource: LocationSource,
+    dashboardViewModel: DashboardViewModel = hiltViewModel()
+) =
     AATSubscriberDemoTheme {
         val viewState: State<DashboardScreenState> = dashboardViewModel.state.collectAsState()
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -66,7 +71,10 @@ fun DashboardScreen(trackableId: String, dashboardViewModel: DashboardViewModel 
 
             Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->
                 if (isAssetTrackerReady) {
-                    DashboardScreenContent(viewModel = dashboardViewModel)
+                    DashboardScreenContent(
+                        viewModel = dashboardViewModel,
+                        locationSource = locationSource
+                    )
                 } else {
                     DashboardScreenLoadingIndicator()
                 }
@@ -94,7 +102,8 @@ fun DashboardScreenLoadingIndicator() = AATSubscriberDemoTheme {
 
 @Composable
 fun DashboardScreenContent(
-    viewModel: DashboardViewModel
+    viewModel: DashboardViewModel,
+    locationSource: LocationSource
 ) = AATSubscriberDemoTheme {
     Column(
         modifier = Modifier
@@ -110,7 +119,7 @@ fun DashboardScreenContent(
             else -> Unit
         }
 
-        DashboardScreenMap(viewModel = viewModel)
+        DashboardScreenMap(viewModel = viewModel, locationSource = locationSource)
     }
 }
 
