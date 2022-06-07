@@ -52,7 +52,7 @@ fun MainScreenMap(
                     viewModel.onZoomedToTrackablePosition()
                 }
                 /**
-                 * If it's already zoomed to the package, it should use the camera positions
+                 * If it's already zoomed to the trackable, it should use the camera positions
                  * calculated by sdk-ui to perform a smooth animation between locations
                  */
                 mapState.cameraPosition != null -> animateMapToLocation(
