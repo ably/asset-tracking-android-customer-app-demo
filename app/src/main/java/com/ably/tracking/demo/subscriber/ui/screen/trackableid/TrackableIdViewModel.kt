@@ -2,10 +2,13 @@ package com.ably.tracking.demo.subscriber.ui.screen.trackableid
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TrackableIdViewModel : ViewModel() {
+@HiltViewModel
+class TrackableIdViewModel @Inject constructor() : ViewModel() {
 
     val state: MutableStateFlow<TrackableIdScreenState> = MutableStateFlow(TrackableIdScreenState())
 

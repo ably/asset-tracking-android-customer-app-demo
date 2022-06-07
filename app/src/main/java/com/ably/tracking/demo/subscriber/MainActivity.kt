@@ -9,7 +9,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardScreen
 import com.ably.tracking.demo.subscriber.ui.screen.trackableid.TrackableIdScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

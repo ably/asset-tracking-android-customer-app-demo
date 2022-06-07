@@ -29,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ably.tracking.TrackableState
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.common.toStringRes
@@ -41,7 +41,7 @@ import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DashboardScreen(trackableId: String, dashboardViewModel: DashboardViewModel = viewModel()) =
+fun DashboardScreen(trackableId: String, dashboardViewModel: DashboardViewModel = hiltViewModel()) =
     AATSubscriberDemoTheme {
         val viewState: State<DashboardScreenState> = dashboardViewModel.state.collectAsState()
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
