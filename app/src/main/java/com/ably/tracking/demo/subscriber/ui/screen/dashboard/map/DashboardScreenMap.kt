@@ -1,7 +1,9 @@
 package com.ably.tracking.demo.subscriber.ui.screen.dashboard.map
 
+import android.Manifest
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -9,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardViewModel
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
@@ -22,13 +26,20 @@ const val longAnimationDuration = 1000
 const val shortAnimationDuration = 100
 const val mapZoomLevel = 16F
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun DashboardScreenMap(
     viewModel: DashboardViewModel
 ) = AATSubscriberDemoTheme {
     val mapState = viewModel.mapState.collectAsState().value
     val cameraPositionState = rememberCameraPositionState()
+    val locationPermissionState =
+        rememberPermissionState(permission = Manifest.permission.ACCESS_FINE_LOCATION)
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = "REQUEST_LOCATION_PERMISSION") {
+        locationPermissionState.launchPermissionRequest()
+    }
 
     /**
      * This is a hack that solves animation stutters
@@ -66,7 +77,7 @@ fun DashboardScreenMap(
 
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
-        cameraPositionState = cameraPositionState
+        cameraPositionState = cameraPositionState,
     ) {
         if (mapState.location != null) {
             Circle(
