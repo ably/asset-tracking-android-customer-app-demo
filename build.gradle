@@ -3,8 +3,9 @@ buildscript {
         localProperties = new Properties()
         localProperties.load(new FileInputStream(rootProject.file("local.properties")))
         compose_ui_version = '1.2.0-beta03'
+        accompanist_version = '0.24.10-beta'
         lifecycle_version = '2.4.1'
-        aat_version = '1.1.0-rc.3'
+        aat_version = '1.1.0-rc.4'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
