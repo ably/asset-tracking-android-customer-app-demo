@@ -7,14 +7,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.ably.tracking.demo.subscriber.common.LocationProviderLocationSource
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardViewModel
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.Circle
 import com.google.maps.android.compose.GoogleMap
@@ -26,13 +27,14 @@ import kotlinx.coroutines.launch
 const val longAnimationDuration = 1000
 const val shortAnimationDuration = 100
 const val mapZoomLevel = 16F
+const val mapBoundsPadding = 32
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun DashboardScreenMap(
     viewModel: DashboardViewModel,
     locationPermissionState: PermissionState,
-    locationSource: LocationSource
+    locationSource: LocationProviderLocationSource
 ) = AATSubscriberDemoTheme {
     val mapState = viewModel.mapState.collectAsState().value
     val cameraPositionState = rememberCameraPositionState()
@@ -56,6 +58,22 @@ fun DashboardScreenMap(
                         cameraPositionState,
                         mapState.locationLatLng()!!,
                         longAnimationDuration
+                    )
+                    viewModel.onZoomedToTrackablePosition()
+                }
+                /**
+                 * If user enables tracking both location and trackable at the same time
+                 * And locations of user and trackable are available, map should animate to bounds
+                 * showing both user and trackable at the same time
+                 */
+                mapState.canFollowUserAndTrackable && locationSource.lastRegisteredLocation != null -> {
+                    animateMapToBounds(
+                        cameraPositionState,
+                        LatLngBounds.Builder()
+                            .include(locationSource.lastRegisteredLocation!!)
+                            .include(mapState.locationLatLng()!!)
+                            .build(),
+                        shortAnimationDuration
                     )
                     viewModel.onZoomedToTrackablePosition()
                 }
@@ -101,6 +119,22 @@ private suspend fun animateMapToLocation(
     try {
         cameraPositionState.animate(
             CameraUpdateFactory.newLatLngZoom(latLng, mapZoomLevel),
+            durationMs
+        )
+    } catch (e: CancellationException) {
+        // Do Nothing
+    }
+}
+
+@Suppress("SwallowedException")
+private suspend fun animateMapToBounds(
+    cameraPositionState: CameraPositionState,
+    latLngBounds: LatLngBounds,
+    durationMs: Int
+) {
+    try {
+        cameraPositionState.animate(
+            CameraUpdateFactory.newLatLngBounds(latLngBounds, mapBoundsPadding),
             durationMs
         )
     } catch (e: CancellationException) {

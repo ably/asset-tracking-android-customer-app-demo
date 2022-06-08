@@ -9,6 +9,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.LocationSource
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
@@ -21,9 +22,15 @@ class LocationProviderLocationSource @Inject constructor(
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var onLocationChangedListener: LocationSource.OnLocationChangedListener
+    var lastRegisteredLocation: LatLng? = null
+
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
             super.onLocationResult(result)
+            lastRegisteredLocation = LatLng(
+                result.lastLocation.latitude,
+                result.lastLocation.longitude
+            )
             onLocationChangedListener.onLocationChanged(result.lastLocation)
         }
     }
