@@ -12,6 +12,8 @@ data class DashboardScreenMapState(
 
     val isInInitialState = !isZoomedInToTrackable && location != null && cameraPosition != null
 
+    val canFollowUserAndTrackable = shouldCameraFollowUserAndTrackable && location != null
+
     fun locationLatLng(): LatLng? = location?.let {
         LatLng(it.latitude, it.longitude)
     }
