@@ -78,4 +78,14 @@ class DashboardViewModel @Inject constructor(
             )
         )
     }
+
+    fun onSwitchMapModeButtonClicked() = viewModelScope.launch {
+        mapState.value.let { currentMapState ->
+            mapState.emit(
+                currentMapState.copy(
+                    shouldCameraFollowUserAndTrackable = !currentMapState.shouldCameraFollowUserAndTrackable
+                )
+            )
+        }
+    }
 }

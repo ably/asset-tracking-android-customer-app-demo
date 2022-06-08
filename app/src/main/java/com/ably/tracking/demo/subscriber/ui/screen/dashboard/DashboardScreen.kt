@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalPermissionsApi::class)
+
 package com.ably.tracking.demo.subscriber.ui.screen.dashboard
 
+import android.Manifest
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,7 +19,13 @@ import androidx.compose.material.BottomSheetState
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,8 +45,13 @@ import com.ably.tracking.demo.subscriber.common.toStringRes
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LocationUpdateBottomSheet
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMap
+import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.maps.LocationSource
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -49,6 +63,10 @@ fun DashboardScreen(
 ) =
     AATSubscriberDemoTheme {
         val viewState: State<DashboardScreenState> = dashboardViewModel.state.collectAsState()
+        val mapState: State<DashboardScreenMapState> = dashboardViewModel.mapState.collectAsState()
+        val locationPermissionState = rememberPermissionState(
+            permission = Manifest.permission.ACCESS_FINE_LOCATION
+        )
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
         )
@@ -57,6 +75,13 @@ fun DashboardScreen(
             scaffoldState = bottomSheetScaffoldState,
             sheetContent = {
                 LocationUpdateBottomSheet(locationUpdate = viewState.value.trackableLocation)
+            },
+            floatingActionButton = {
+                if (locationPermissionState.status.isGranted) {
+                    ChangeMapModeFloatingActionButton(mapState.value) {
+                        dashboardViewModel.onSwitchMapModeButtonClicked()
+                    }
+                }
             },
             sheetPeekHeight = LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT,
             sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -69,10 +94,15 @@ fun DashboardScreen(
                 dashboardViewModel.beginTracking(trackableId)
             }
 
+            LaunchedEffect(key1 = "REQUEST_LOCATION_PERMISSION") {
+                locationPermissionState.launchPermissionRequest()
+            }
+
             Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->
                 if (isAssetTrackerReady) {
                     DashboardScreenContent(
                         viewModel = dashboardViewModel,
+                        locationPermissionState = locationPermissionState,
                         locationSource = locationSource
                     )
                 } else {
@@ -100,9 +130,11 @@ fun DashboardScreenLoadingIndicator() = AATSubscriberDemoTheme {
 }
 
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun DashboardScreenContent(
     viewModel: DashboardViewModel,
+    locationPermissionState: PermissionState,
     locationSource: LocationSource
 ) = AATSubscriberDemoTheme {
     Column(
@@ -119,7 +151,11 @@ fun DashboardScreenContent(
             else -> Unit
         }
 
-        DashboardScreenMap(viewModel = viewModel, locationSource = locationSource)
+        DashboardScreenMap(
+            viewModel = viewModel,
+            locationPermissionState = locationPermissionState,
+            locationSource = locationSource
+        )
     }
 }
 
@@ -183,5 +219,34 @@ fun TrackableStateErrorRow(
                 else -> ""
             }
         )
+    }
+}
+
+@Composable
+fun ChangeMapModeFloatingActionButton(
+    mapState: DashboardScreenMapState,
+    onClick: () -> Unit
+) = AATSubscriberDemoTheme {
+    FloatingActionButton(
+        onClick = onClick,
+        backgroundColor = MaterialTheme.colors.secondary,
+        contentColor = Color.White
+    ) {
+        if (mapState.shouldCameraFollowUserAndTrackable) {
+            Icon(
+                imageVector = Icons.Default.Email,
+                contentDescription = stringResource(
+                    id = R.string.image_content_description_icon_switch_map_to_trackable
+                )
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Default.LocationOn,
+                contentDescription = stringResource(
+                    id = R.string.image_content_description_icon_switch_map_to_location
+                )
+            )
+        }
+
     }
 }
