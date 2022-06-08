@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.LatLng
 
 data class DashboardScreenMapState(
     val isZoomedInToTrackable: Boolean = false,
+    val shouldCameraFollowUserAndTrackable: Boolean = false,
     val location: Position? = null,
     val cameraPosition: Position? = null
 ) {

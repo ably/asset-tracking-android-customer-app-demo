@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">AAT Subscriber Demo</string>
     <string name="image_content_description_header_logo_with_title">Ably logo with AAT title</string>
+    <string name="image_content_description_icon_switch_map_to_trackable">Switch map mode to follow trackable</string>
+    <string name="image_content_description_icon_switch_map_to_location">Switch map mode to follow both user location and trackable</string>
     <string name="loading">AAT is loading…</string>
     <string name="confirm">Confirm</string>
 
