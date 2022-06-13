@@ -15,7 +15,7 @@ import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 @ActivityScoped
-class LocationProviderLocationSource @Inject constructor(
+class FusedLocationSource @Inject constructor(
     @ActivityContext private val activity: Context
 ) :
     LocationSource {

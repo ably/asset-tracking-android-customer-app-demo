@@ -7,7 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.ably.tracking.demo.subscriber.common.LocationProviderLocationSource
+import com.ably.tracking.demo.subscriber.common.FusedLocationSource
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardViewModel
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -34,7 +34,7 @@ const val mapBoundsPadding = 32
 fun DashboardScreenMap(
     viewModel: DashboardViewModel,
     locationPermissionState: PermissionState,
-    locationSource: LocationProviderLocationSource
+    locationSource: FusedLocationSource
 ) = AATSubscriberDemoTheme {
     val mapState = viewModel.mapState.collectAsState().value
     val cameraPositionState = rememberCameraPositionState()
