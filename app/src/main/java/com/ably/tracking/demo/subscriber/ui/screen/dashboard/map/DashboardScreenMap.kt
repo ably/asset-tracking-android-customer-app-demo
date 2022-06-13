@@ -6,7 +6,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.ably.tracking.demo.subscriber.common.FusedLocationSource
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardViewModel
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
@@ -17,17 +16,19 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.CameraPositionState
-import com.google.maps.android.compose.Circle
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 const val longAnimationDuration = 1000
 const val shortAnimationDuration = 100
-const val mapZoomLevel = 16F
-const val mapBoundsPadding = 32
+const val mapZoomLevel = 14F
+const val mapBoundsPadding = 64
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -81,7 +82,7 @@ fun DashboardScreenMap(
                  * If it's already zoomed to the trackable, it should use the camera positions
                  * calculated by sdk-ui to perform a smooth animation between locations
                  */
-                mapState.cameraPosition != null -> animateMapToLocation(
+                mapState.cameraPosition != null && !cameraPositionState.isMoving -> animateMapToLocation(
                     cameraPositionState,
                     mapState.cameraLatLng()!!,
                     shortAnimationDuration
@@ -93,18 +94,20 @@ fun DashboardScreenMap(
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
+        uiSettings = MapUiSettings(
+            compassEnabled = false,
+            myLocationButtonEnabled = false
+        ),
         properties = MapProperties(
             isMyLocationEnabled = locationPermissionState.status.isGranted
         ),
         locationSource = locationSource
     ) {
         if (mapState.location != null) {
-            Circle(
-                center = mapState.locationLatLng()!!,
-                radius = 10.0,
-                strokeWidth = 4F,
-                strokeColor = Color.Black,
-                fillColor = Color.Blue,
+            Marker(
+                state = MarkerState(
+                    position = mapState.locationLatLng()!!
+                )
             )
         }
     }
