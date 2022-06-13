@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -77,9 +79,9 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
     // Maps
-    implementation "com.google.maps.android:maps-compose:2.2.0"
+    implementation 'com.google.maps.android:maps-compose:2.2.1'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
-    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
 
     // AAT
     implementation "com.ably.tracking:subscribing-sdk:$aat_version"
@@ -89,4 +91,8 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:30.1.0')
+    implementation 'com.google.firebase:firebase-crashlytics'
 }

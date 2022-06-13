@@ -28,10 +28,10 @@ class FusedLocationSource @Inject constructor(
         override fun onLocationResult(result: LocationResult) {
             super.onLocationResult(result)
             lastRegisteredLocation = LatLng(
-                result.lastLocation.latitude,
-                result.lastLocation.longitude
+                result.lastLocation!!.latitude,
+                result.lastLocation!!.longitude
             )
-            onLocationChangedListener.onLocationChanged(result.lastLocation)
+            onLocationChangedListener.onLocationChanged(result.lastLocation!!)
         }
     }
 
