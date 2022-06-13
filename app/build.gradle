@@ -33,7 +33,8 @@ android {
             buildConfigField "String", "ABLY_API_KEY", "\"$ABLY_API_KEY\""
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
