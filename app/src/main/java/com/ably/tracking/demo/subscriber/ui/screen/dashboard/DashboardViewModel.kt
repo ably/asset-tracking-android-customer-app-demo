@@ -88,4 +88,12 @@ class DashboardViewModel @Inject constructor(
             )
         }
     }
+
+    fun onEnterForeground() = viewModelScope.launch {
+        assetTracker.setForegroundResolution()
+    }
+
+    fun onEnterBackground() = viewModelScope.launch {
+        assetTracker.setBackgroundResolution()
+    }
 }
