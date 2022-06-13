@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ably.tracking.demo.subscriber.common.LocationProviderLocationSource
+import com.ably.tracking.demo.subscriber.common.FusedLocationSource
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardScreen
 import com.ably.tracking.demo.subscriber.ui.screen.trackableid.TrackableIdScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var locationSource: LocationProviderLocationSource
+    lateinit var locationSource: FusedLocationSource
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

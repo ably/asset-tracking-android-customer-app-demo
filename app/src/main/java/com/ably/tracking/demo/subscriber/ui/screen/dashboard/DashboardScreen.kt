@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ably.tracking.TrackableState
 import com.ably.tracking.demo.subscriber.R
-import com.ably.tracking.demo.subscriber.common.LocationProviderLocationSource
+import com.ably.tracking.demo.subscriber.common.FusedLocationSource
 import com.ably.tracking.demo.subscriber.common.toStringRes
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LocationUpdateBottomSheet
@@ -58,7 +58,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 @Composable
 fun DashboardScreen(
     trackableId: String,
-    locationSource: LocationProviderLocationSource,
+    locationSource: FusedLocationSource,
     dashboardViewModel: DashboardViewModel = hiltViewModel()
 ) =
     AATSubscriberDemoTheme {
@@ -135,7 +135,7 @@ fun DashboardScreenLoadingIndicator() = AATSubscriberDemoTheme {
 fun DashboardScreenContent(
     viewModel: DashboardViewModel,
     locationPermissionState: PermissionState,
-    locationSource: LocationProviderLocationSource
+    locationSource: FusedLocationSource
 ) = AATSubscriberDemoTheme {
     Column(
         modifier = Modifier
