@@ -28,17 +28,21 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import com.ably.tracking.TrackableState
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.common.FusedLocationSource
@@ -59,7 +63,8 @@ import com.google.accompanist.permissions.rememberPermissionState
 fun DashboardScreen(
     trackableId: String,
     locationSource: FusedLocationSource,
-    dashboardViewModel: DashboardViewModel = hiltViewModel()
+    dashboardViewModel: DashboardViewModel = hiltViewModel(),
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) =
     AATSubscriberDemoTheme {
         val viewState: State<DashboardScreenState> = dashboardViewModel.state.collectAsState()
@@ -90,12 +95,22 @@ fun DashboardScreen(
 
             val state = dashboardViewModel.state.collectAsState()
 
-            LaunchedEffect(key1 = "BEGIN_TRACKING") {
-                dashboardViewModel.beginTracking(trackableId)
-            }
+            DisposableEffect(lifecycleOwner) {
+                val lifecycleObserver = LifecycleEventObserver { _, event ->
+                    when (event) {
+                        Lifecycle.Event.ON_CREATE -> dashboardViewModel.beginTracking(trackableId)
+                        Lifecycle.Event.ON_START -> locationPermissionState.launchPermissionRequest()
+                        Lifecycle.Event.ON_RESUME -> dashboardViewModel.onEnterForeground()
+                        Lifecycle.Event.ON_PAUSE -> dashboardViewModel.onEnterBackground()
+                        else -> Unit
+                    }
+                }
 
-            LaunchedEffect(key1 = "REQUEST_LOCATION_PERMISSION") {
-                locationPermissionState.launchPermissionRequest()
+                lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
+
+                onDispose {
+                    lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
+                }
             }
 
             Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->
