@@ -1,7 +1,5 @@
 buildscript {
     ext {
-        localProperties = new Properties()
-        localProperties.load(new FileInputStream(rootProject.file("local.properties")))
         compose_ui_version = '1.2.0-beta03'
         accompanist_version = '0.24.10-beta'
         lifecycle_version = '2.4.1'
@@ -35,7 +33,7 @@ allprojects {
             }
             credentials {
                 username = "mapbox"
-                password = localProperties.getProperty('MAPBOX_DOWNLOADS_TOKEN')
+                password = findProperty('MAPBOX_DOWNLOADS_TOKEN')
             }
         }
         maven {
@@ -46,7 +44,7 @@ allprojects {
             }
             credentials {
                 username = "mapbox"
-                password = localProperties.getProperty('MAPBOX_DOWNLOADS_TOKEN')
+                password = findProperty('MAPBOX_DOWNLOADS_TOKEN')
             }
         }
     }

@@ -4,7 +4,7 @@
 
 To build these apps from source you will need to specify credentials in Gradle properties.
 
-The following secrets need to be injected into Gradle by storing them in `local.properties` file in
+The following secrets need to be injected into Gradle by storing them in `gradle.properties` file in
 the project root:
 
 - `ABLY_API_KEY`: On your [Ably accounts page](https://ably.com/accounts/), select your application,
