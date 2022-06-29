@@ -100,4 +100,9 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:30.1.0')
     implementation 'com.google.firebase:firebase-crashlytics'
+
+    //Test
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+    testImplementation "com.google.truth:truth:1.1.3"
 }

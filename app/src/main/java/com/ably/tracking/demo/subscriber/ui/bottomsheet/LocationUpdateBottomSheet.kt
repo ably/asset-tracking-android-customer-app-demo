@@ -18,7 +18,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.ably.tracking.LocationUpdate
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import java.time.Instant
@@ -30,20 +29,22 @@ val LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT = 108.dp
 @Composable
 @Preview
 fun LocationUpdateBottomSheet(
-    @PreviewParameter(LocationUpdatePreview::class) locationUpdate: LocationUpdate?
-) = AATSubscriberDemoTheme {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT)
-            .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
-    ) {
-        when (locationUpdate) {
-            null -> LocationUpdateBottomSheetContentPlaceholder()
-            else -> LocationUpdateBottomSheetContent(locationUpdate)
+    @PreviewParameter(LocationUpdatePreview::class) locationUpdateBottomSheetData: LocationUpdateBottomSheetData
+) =
+    AATSubscriberDemoTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT)
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
+        ) {
+            if (locationUpdateBottomSheetData.locationUpdate == null) {
+                LocationUpdateBottomSheetContentPlaceholder()
+            } else {
+                LocationUpdateBottomSheetContent(locationUpdateBottomSheetData)
+            }
         }
     }
-}
 
 @Composable
 @Preview
@@ -69,33 +70,49 @@ fun LocationUpdateBottomSheetContentPlaceholder() = AATSubscriberDemoTheme {
 @Composable
 @Preview
 fun LocationUpdateBottomSheetContent(
-    @PreviewParameter(LocationUpdatePreview::class) locationUpdate: LocationUpdate
+    @PreviewParameter(LocationUpdatePreview::class) locationUpdateBottomSheetData: LocationUpdateBottomSheetData
 ) = AATSubscriberDemoTheme {
+    val location = locationUpdateBottomSheetData.locationUpdate?.location
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
         mapOf(
-            R.string.trackable_location_time to Instant.ofEpochMilli(locationUpdate.location.time)
-                .atZone(ZoneId.systemDefault())
-                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
-            R.string.trackable_location_latitude to locationUpdate.location.latitude.toString(),
-            R.string.trackable_location_longitude to locationUpdate.location.longitude.toString(),
-            R.string.trackable_location_speed to locationUpdate.location.speed.toString(),
-            R.string.trackable_location_bearing to locationUpdate.location.bearing.toString(),
-            R.string.trackable_location_altitude to locationUpdate.location.altitude.toString(),
-            R.string.trackable_location_accuracy to locationUpdate.location.accuracy.toString(),
-            R.string.trackable_location_skipped_locations to locationUpdate.skippedLocations.size.toString(),
-        ).forEach { (stringResource, data) ->
-            LocationDataRow(
-                label = stringResource(id = stringResource),
-                data = data
-            )
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
-        }
+            R.string.trackable_location_time to location?.time?.formatToDate(),
+            R.string.trackable_location_latitude to location?.latitude,
+            R.string.trackable_location_longitude to location?.longitude,
+            R.string.trackable_location_speed to location?.speed,
+            R.string.trackable_location_bearing to location?.bearing,
+            R.string.trackable_location_altitude to location?.altitude,
+            R.string.trackable_location_accuracy to location?.accuracy,
+            R.string.trackable_location_last_interval to
+                    locationUpdateBottomSheetData.lastLocationUpdateInterval?.toIntervalWithUnit(),
+            R.string.trackable_location_average_interval to
+                    locationUpdateBottomSheetData.averageLocationUpdateInterval?.toIntervalWithUnit(),
+            R.string.trackable_location_desired_interval to
+                    locationUpdateBottomSheetData.resolution?.desiredInterval?.toIntervalWithUnit(),
+            R.string.trackable_location_skipped_locations to
+                    locationUpdateBottomSheetData.locationUpdate?.skippedLocations?.size,
+        )
+            .filter { it.value != null }
+            .map { it.key to it.value.toString() }
+            .forEach { (stringResource, data) ->
+                LocationDataRow(
+                    label = stringResource(id = stringResource),
+                    data = data
+                )
+                Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
+            }
     }
 }
+
+private fun Long.formatToDate(): String =
+    Instant.ofEpochMilli(this)
+        .atZone(ZoneId.systemDefault())
+        .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
+
+private fun Long.toIntervalWithUnit(): String = "$this ms"
 
 @Composable
 fun LocationDataRow(

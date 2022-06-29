@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
 import com.ably.tracking.TrackableState
+import com.ably.tracking.demo.subscriber.common.FixedSizeMutableList
 import com.ably.tracking.demo.subscriber.domain.AssetTracker
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimator
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimatorPosition
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +27,8 @@ class DashboardViewModel @Inject constructor(
     val state: MutableStateFlow<DashboardScreenState> = MutableStateFlow(DashboardScreenState())
     val mapState: MutableStateFlow<DashboardScreenMapState> =
         MutableStateFlow(DashboardScreenMapState())
+
+    private val intervals = FixedSizeMutableList(ROLLING_AVERAGE_INTERVAL_COUNT)
 
     fun beginTracking(trackableId: String) = viewModelScope.launch {
         state.emit(state.value.copy(trackableId = trackableId, isAssetTrackerReady = false))
@@ -49,7 +53,21 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun onTrackableLocationChanged(trackableLocation: LocationUpdate) {
-        state.emit(state.value.copy(trackableLocation = trackableLocation))
+        val lastLocationUpdateTime = state.value.trackableLocation?.location?.time
+        val interval = lastLocationUpdateTime?.let { trackableLocation.location.time - it }
+        interval?.let {
+            intervals.add(it)
+        }
+        val averageInterval = intervals.average()
+
+        state.emit(
+            state.value.copy(
+                trackableLocation = trackableLocation,
+                lastLocationUpdateInterval = interval,
+                averageLocationUpdateInterval = averageInterval
+            )
+        )
+
         state.value.resolution?.let { resolution ->
             assetTrackerAnimator.update(trackableLocation, resolution.desiredInterval)
         }
@@ -95,5 +113,9 @@ class DashboardViewModel @Inject constructor(
 
     fun onEnterBackground() = viewModelScope.launch {
         assetTracker.setBackgroundResolution()
+    }
+
+    companion object{
+        private const val ROLLING_AVERAGE_INTERVAL_COUNT = 5
     }
 }

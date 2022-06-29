@@ -17,6 +17,9 @@
     <string name="trackable_location_speed">Speed:</string>
     <string name="trackable_location_time">Time:</string>
     <string name="trackable_location_skipped_locations">Skipped locations:</string>
+    <string name="trackable_location_last_interval">Last update interval:</string>
+    <string name="trackable_location_average_interval">Average update interval:</string>
+    <string name="trackable_location_desired_interval">Desired update interval:</string>
 
     <string name="trackable_state_label_normal">Trackable state:</string>
     <string name="trackable_state_label_error">Error:</string>
