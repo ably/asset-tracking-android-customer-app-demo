@@ -23,18 +23,22 @@ android {
             useSupportLibrary true
         }
 
-        def GOOGLE_MAPS_API_KEY = localProperties.getProperty("GOOGLE_MAPS_API_KEY")
-        manifestPlaceholders.GOOGLE_MAPS_API_KEY = GOOGLE_MAPS_API_KEY
+        manifestPlaceholders.GOOGLE_MAPS_API_KEY = findProperty("GOOGLE_MAPS_API_KEY")
+        buildConfigField("String", "ABLY_API_KEY", "\"${findProperty("ABLY_API_KEY")}\"")
     }
 
+signingConfigs {
+    release {//for local usage only
+        storeFile file('release_keystore.jks')
+        keyAlias findProperty("SIGNING_KEY_ALIAS")
+        keyPassword findProperty("SIGNING_KEY_PASSWORD")
+        storePassword findProperty("SIGNING_STORE_PASSWORD")
+    }
+}
+
     buildTypes {
-        def ABLY_API_KEY = localProperties.getProperty("ABLY_API_KEY")
-        debug {
-            buildConfigField "String", "ABLY_API_KEY", "\"$ABLY_API_KEY\""
-        }
         release {
             minifyEnabled true
-            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
