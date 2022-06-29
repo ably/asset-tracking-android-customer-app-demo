@@ -49,6 +49,7 @@ import com.ably.tracking.demo.subscriber.common.FusedLocationSource
 import com.ably.tracking.demo.subscriber.common.toStringRes
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LocationUpdateBottomSheet
+import com.ably.tracking.demo.subscriber.ui.bottomsheet.LocationUpdateBottomSheetData
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMap
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
@@ -79,7 +80,7 @@ fun DashboardScreen(
         BottomSheetScaffold(
             scaffoldState = bottomSheetScaffoldState,
             sheetContent = {
-                LocationUpdateBottomSheet(locationUpdate = viewState.value.trackableLocation)
+                LocationUpdateBottomSheet(viewState.toLocationUpdateBottomSheetData())
             },
             floatingActionButton = {
                 if (locationPermissionState.status.isGranted) {
@@ -126,6 +127,14 @@ fun DashboardScreen(
             }
         }
     }
+
+private fun State<DashboardScreenState>.toLocationUpdateBottomSheetData() =
+    LocationUpdateBottomSheetData(
+        locationUpdate = value.trackableLocation,
+        resolution = value.resolution,
+        lastLocationUpdateInterval = value.lastLocationUpdateInterval,
+        averageLocationUpdateInterval = value.averageLocationUpdateInterval
+    )
 
 @Preview
 @Composable
