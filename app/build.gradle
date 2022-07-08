@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id "org.jlleitschuh.gradle.ktlint"
 }
 
 android {
@@ -63,6 +64,18 @@ signingConfigs {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+}
+
+// https://github.com/jlleitschuh/ktlint-gradle#configuration
+ktlint {
+    verbose = true // shows rule name that failed
+    android = true
+    outputColorName = 'RED' // easier to spot failures in console output
+    disabledRules = [
+            // according to a Github issue comment this issue could be resolved with Kotlin 1.4
+            // https://github.com/pinterest/ktlint/issues/527#issuecomment-705871614
+            'import-ordering',
+    ]
 }
 
 dependencies {
