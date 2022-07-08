@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -115,7 +114,7 @@ class DashboardViewModel @Inject constructor(
         assetTracker.setBackgroundResolution()
     }
 
-    companion object{
+    companion object {
         private const val ROLLING_AVERAGE_INTERVAL_COUNT = 5
     }
 }
