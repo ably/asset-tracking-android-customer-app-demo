@@ -103,13 +103,13 @@ private fun cha(locationUpdateBottomSheetData: LocationUpdateBottomSheetData): M
         R.string.trackable_location_altitude to location?.altitude,
         R.string.trackable_location_accuracy to location?.accuracy,
         R.string.trackable_location_last_interval to
-                locationUpdateBottomSheetData.lastLocationUpdateInterval?.toIntervalWithUnit(),
+            locationUpdateBottomSheetData.lastLocationUpdateInterval?.toIntervalWithUnit(),
         R.string.trackable_location_average_interval to
-                locationUpdateBottomSheetData.averageLocationUpdateInterval?.toIntervalWithUnit(),
+            locationUpdateBottomSheetData.averageLocationUpdateInterval?.toIntervalWithUnit(),
         R.string.trackable_location_desired_interval to
-                locationUpdateBottomSheetData.resolution?.desiredInterval?.toIntervalWithUnit(),
+            locationUpdateBottomSheetData.resolution?.desiredInterval?.toIntervalWithUnit(),
         R.string.trackable_location_skipped_locations to
-                locationUpdateBottomSheetData.locationUpdate?.skippedLocations?.size,
+            locationUpdateBottomSheetData.locationUpdate?.skippedLocations?.size,
     )
 }
 
