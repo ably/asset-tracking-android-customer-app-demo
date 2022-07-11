@@ -1,15 +1,7 @@
 *.iml
 .gradle
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-/.idea/vcs.xml
-/.idea/misc.xml
-/.idea/git_toolbox_prj.xml
+.idea
 .DS_Store
 /build
 /captures
@@ -19,6 +11,3 @@ local.properties
 /app/google-services.json
 /app/release/output-metadata.json
 /app/release_keystore.jks
-/.idea/deploymentTargetDropDown.xml
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/jsonSchemas.xml
