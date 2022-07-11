@@ -153,7 +153,6 @@ fun DashboardScreenLoadingIndicator() = AATSubscriberDemoTheme {
     }
 }
 
-
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun DashboardScreenContent(
@@ -271,6 +270,5 @@ fun ChangeMapModeFloatingActionButton(
                 )
             )
         }
-
     }
 }
