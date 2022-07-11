@@ -77,7 +77,7 @@ fun LocationUpdateBottomSheetContent(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        cha(locationUpdateBottomSheetData)
+        locationUpdateBottomSheetData.toLabelValueMap()
             .filter { it.value != null }
             .map { it.key to it.value.toString() }
             .forEach { (stringResource, data) ->
@@ -92,8 +92,8 @@ fun LocationUpdateBottomSheetContent(
     }
 }
 
-private fun cha(locationUpdateBottomSheetData: LocationUpdateBottomSheetData): Map<Int, Any?> {
-    val location = locationUpdateBottomSheetData.locationUpdate?.location
+private fun LocationUpdateBottomSheetData.toLabelValueMap(): Map<Int, Any?> {
+    val location = locationUpdate?.location
     return mapOf(
         R.string.trackable_location_time to location?.time?.formatToDate(),
         R.string.trackable_location_latitude to location?.latitude,
@@ -103,13 +103,13 @@ private fun cha(locationUpdateBottomSheetData: LocationUpdateBottomSheetData): M
         R.string.trackable_location_altitude to location?.altitude,
         R.string.trackable_location_accuracy to location?.accuracy,
         R.string.trackable_location_last_interval to
-            locationUpdateBottomSheetData.lastLocationUpdateInterval?.toIntervalWithUnit(),
+            lastLocationUpdateInterval?.toIntervalWithUnit(),
         R.string.trackable_location_average_interval to
-            locationUpdateBottomSheetData.averageLocationUpdateInterval?.toIntervalWithUnit(),
+            averageLocationUpdateInterval?.toIntervalWithUnit(),
         R.string.trackable_location_desired_interval to
-            locationUpdateBottomSheetData.resolution?.desiredInterval?.toIntervalWithUnit(),
+            resolution?.desiredInterval?.toIntervalWithUnit(),
         R.string.trackable_location_skipped_locations to
-            locationUpdateBottomSheetData.locationUpdate?.skippedLocations?.size,
+            locationUpdate?.skippedLocations?.size,
     )
 }
 
