@@ -31,7 +31,8 @@ class MainActivity : ComponentActivity() {
                 composable(Routes.Dashboard.pathWithParams) { backStackEntry ->
                     DashboardScreen(
                         trackableId = backStackEntry.arguments!!.getString(Routes.Dashboard.paramTrackableId)!!,
-                        locationSource = locationSource
+                        locationSource = locationSource,
+                        navController = navController
                     )
                 }
             }

@@ -12,5 +12,6 @@ data class DashboardScreenState(
     val averageLocationUpdateInterval: Long? = null,
     val resolution: Resolution? = null,
     val trackableLocation: LocationUpdate? = null,
-    val animatedLocation: LocationUpdate? = null
+    val animatedLocation: LocationUpdate? = null,
+    val showSubscriptionFailedDialog: Boolean = false
 )

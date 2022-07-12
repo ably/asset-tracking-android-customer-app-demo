@@ -1,7 +1,10 @@
 package com.ably.tracking.demo.subscriber.ui.screen.dashboard
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ably.tracking.BuilderConfigurationIncompleteException
+import com.ably.tracking.ConnectionException
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
 import com.ably.tracking.TrackableState
@@ -12,6 +15,7 @@ import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimatorPosition
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,10 +33,32 @@ class DashboardViewModel @Inject constructor(
 
     private val intervals = FixedSizeMutableList(ROLLING_AVERAGE_INTERVAL_COUNT)
 
-    fun beginTracking(trackableId: String) = viewModelScope.launch {
+    fun onCreated(trackableId: String) = viewModelScope.launch {
+        try {
+            beginTracking(trackableId)
+        } catch (connectionException: ConnectionException) {
+            Log.d("AssetTracker", "Starting subscriber failed with $connectionException")
+            connectionException.printStackTrace()
+            updateState {
+                copy(showSubscriptionFailedDialog = true)
+            }
+        }
+    }
+
+    private suspend fun CoroutineScope.beginTracking(trackableId: String) {
+        updateState {
+            copy(
+                trackableId = trackableId,
+                isAssetTrackerReady = false
+            )
+        }
         state.emit(state.value.copy(trackableId = trackableId, isAssetTrackerReady = false))
         assetTracker.startTracking(trackableId)
-        state.emit(state.value.copy(isAssetTrackerReady = true))
+        updateState {
+            copy(
+                isAssetTrackerReady = true
+            )
+        }
         assetTracker.observeTrackableState()
             .onEach(::onTrackableStateChanged)
             .launchIn(this)
@@ -48,6 +74,9 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun onTrackableStateChanged(trackableState: TrackableState) {
+        updateState {
+            copy(trackableState = trackableState)
+        }
         state.emit(state.value.copy(trackableState = trackableState))
     }
 
@@ -59,13 +88,13 @@ class DashboardViewModel @Inject constructor(
         }
         val averageInterval = intervals.average()
 
-        state.emit(
-            state.value.copy(
+        updateState {
+            copy(
                 trackableLocation = trackableLocation,
                 lastLocationUpdateInterval = interval,
                 averageLocationUpdateInterval = averageInterval
             )
-        )
+        }
 
         state.value.resolution?.let { resolution ->
             assetTrackerAnimator.update(trackableLocation, resolution.desiredInterval)
@@ -73,10 +102,22 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun onResolutionChanged(resolution: Resolution) {
-        state.emit(state.value.copy(resolution = resolution))
+        updateState {
+            copy(resolution = resolution)
+        }
         state.value.trackableLocation?.let { location ->
             assetTrackerAnimator.update(location, resolution.desiredInterval)
         }
+    }
+
+    fun onSubscriptionFailedDialogClose() = viewModelScope.launch {
+        updateState {
+            copy(showSubscriptionFailedDialog = false)
+        }
+    }
+
+    private suspend fun updateState(update: DashboardScreenState.() -> DashboardScreenState) {
+        state.emit(state.value.update())
     }
 
     private suspend fun onAnimatedTrackablePositionChanged(assetTrackerAnimatorPosition: AssetTrackerAnimatorPosition) {
