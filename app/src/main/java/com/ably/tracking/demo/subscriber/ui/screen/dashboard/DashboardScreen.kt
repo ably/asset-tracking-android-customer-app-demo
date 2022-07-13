@@ -29,6 +29,8 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.DisposableEffectResult
+import androidx.compose.runtime.DisposableEffectScope
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -110,21 +112,12 @@ fun DashboardScreen(
             }
 
             DisposableEffect(lifecycleOwner) {
-                val lifecycleObserver = LifecycleEventObserver { _, event ->
-                    when (event) {
-                        Lifecycle.Event.ON_CREATE -> dashboardViewModel.onCreated(trackableId)
-                        Lifecycle.Event.ON_START -> locationPermissionState.launchPermissionRequest()
-                        Lifecycle.Event.ON_RESUME -> dashboardViewModel.onEnterForeground()
-                        Lifecycle.Event.ON_PAUSE -> dashboardViewModel.onEnterBackground()
-                        else -> Unit
-                    }
-                }
-
-                lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
-
-                onDispose {
-                    lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
-                }
+                observeLifecycleEvents(
+                    dashboardViewModel,
+                    trackableId,
+                    locationPermissionState,
+                    lifecycleOwner
+                )
             }
 
             Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->
@@ -140,6 +133,43 @@ fun DashboardScreen(
             }
         }
     }
+
+private fun DisposableEffectScope.observeLifecycleEvents(
+    dashboardViewModel: DashboardViewModel,
+    trackableId: String,
+    locationPermissionState: PermissionState,
+    lifecycleOwner: LifecycleOwner
+): DisposableEffectResult {
+    val lifecycleObserver = LifecycleEventObserver { _, event ->
+        onLifecycleEvent(
+            event,
+            dashboardViewModel,
+            trackableId,
+            locationPermissionState
+        )
+    }
+
+    lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
+
+    return onDispose {
+        lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
+    }
+}
+
+private fun onLifecycleEvent(
+    event: Lifecycle.Event,
+    dashboardViewModel: DashboardViewModel,
+    trackableId: String,
+    locationPermissionState: PermissionState
+) {
+    when (event) {
+        Lifecycle.Event.ON_CREATE -> dashboardViewModel.onCreated(trackableId)
+        Lifecycle.Event.ON_START -> locationPermissionState.launchPermissionRequest()
+        Lifecycle.Event.ON_RESUME -> dashboardViewModel.onEnterForeground()
+        Lifecycle.Event.ON_PAUSE -> dashboardViewModel.onEnterBackground()
+        else -> Unit
+    }
+}
 
 private fun State<DashboardScreenState>.toLocationUpdateBottomSheetData() =
     LocationUpdateBottomSheetData(

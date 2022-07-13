@@ -2,6 +2,13 @@ complexity:
   LongParameterList:
     functionThreshold: 24
     ignoreDefaultParameters: true
+  TooManyFunctions:
+    thresholdInFiles: 31
+    thresholdInClasses: 31
+    thresholdInInterfaces: 31
+    thresholdInObjects: 31
+    thresholdInEnums: 31
+    ignorePrivate: true
 
 naming:
   FunctionNaming:
