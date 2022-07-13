@@ -29,6 +29,8 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.DisposableEffectResult
+import androidx.compose.runtime.DisposableEffectScope
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -43,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavController
 import com.ably.tracking.TrackableState
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.common.FusedLocationSource
@@ -54,6 +57,7 @@ import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreen
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
+import com.ably.tracking.demo.subscriber.ui.widget.SingleButtonAlertDialog
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
@@ -64,6 +68,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 fun DashboardScreen(
     trackableId: String,
     locationSource: FusedLocationSource,
+    navController: NavController,
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) =
@@ -96,22 +101,23 @@ fun DashboardScreen(
 
             val state = dashboardViewModel.state.collectAsState()
 
+            if (state.value.showSubscriptionFailedDialog) {
+                SingleButtonAlertDialog(
+                    text = R.string.trackable_subscription_failed_dialog_message,
+                    buttonText = R.string.trackable_subscription_failed_dialog_button_text
+                ) {
+                    dashboardViewModel.onSubscriptionFailedDialogClose()
+                    navController.popBackStack()
+                }
+            }
+
             DisposableEffect(lifecycleOwner) {
-                val lifecycleObserver = LifecycleEventObserver { _, event ->
-                    when (event) {
-                        Lifecycle.Event.ON_CREATE -> dashboardViewModel.beginTracking(trackableId)
-                        Lifecycle.Event.ON_START -> locationPermissionState.launchPermissionRequest()
-                        Lifecycle.Event.ON_RESUME -> dashboardViewModel.onEnterForeground()
-                        Lifecycle.Event.ON_PAUSE -> dashboardViewModel.onEnterBackground()
-                        else -> Unit
-                    }
-                }
-
-                lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
-
-                onDispose {
-                    lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
-                }
+                observeLifecycleEvents(
+                    dashboardViewModel,
+                    trackableId,
+                    locationPermissionState,
+                    lifecycleOwner
+                )
             }
 
             Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->
@@ -127,6 +133,43 @@ fun DashboardScreen(
             }
         }
     }
+
+private fun DisposableEffectScope.observeLifecycleEvents(
+    dashboardViewModel: DashboardViewModel,
+    trackableId: String,
+    locationPermissionState: PermissionState,
+    lifecycleOwner: LifecycleOwner
+): DisposableEffectResult {
+    val lifecycleObserver = LifecycleEventObserver { _, event ->
+        onLifecycleEvent(
+            event,
+            dashboardViewModel,
+            trackableId,
+            locationPermissionState
+        )
+    }
+
+    lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
+
+    return onDispose {
+        lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
+    }
+}
+
+private fun onLifecycleEvent(
+    event: Lifecycle.Event,
+    dashboardViewModel: DashboardViewModel,
+    trackableId: String,
+    locationPermissionState: PermissionState
+) {
+    when (event) {
+        Lifecycle.Event.ON_CREATE -> dashboardViewModel.onCreated(trackableId)
+        Lifecycle.Event.ON_START -> locationPermissionState.launchPermissionRequest()
+        Lifecycle.Event.ON_RESUME -> dashboardViewModel.onEnterForeground()
+        Lifecycle.Event.ON_PAUSE -> dashboardViewModel.onEnterBackground()
+        else -> Unit
+    }
+}
 
 private fun State<DashboardScreenState>.toLocationUpdateBottomSheetData() =
     LocationUpdateBottomSheetData(
