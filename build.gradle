@@ -3,7 +3,7 @@ buildscript {
         compose_ui_version = '1.2.0-beta03'
         accompanist_version = '0.24.10-beta'
         lifecycle_version = '2.4.1'
-        aat_version = '1.1.0-rc.6'
+        aat_version = '1.1.0-rc.7'
         hilt_version = '2.42'
     }
 
