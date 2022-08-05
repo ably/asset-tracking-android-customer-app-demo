@@ -1,8 +1,8 @@
-package com.ably.tracking.demo.subscriber.ui.screen.trackableid
+package com.ably.tracking.demo.subscriber.ui.screen.createorder
 
 import com.ably.tracking.demo.subscriber.common.canParseToDouble
 
-data class TrackableIdScreenState(
+data class CreateOrderScreenState(
     val trackableId: String = "",
     val fromLatitude: String = "51.1065859",
     val fromLongitude: String = "17.0312766",

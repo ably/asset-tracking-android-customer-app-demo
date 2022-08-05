@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.ui.screen.trackableid
+package com.ably.tracking.demo.subscriber.ui.screen.createorder
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,12 +11,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class TrackableIdViewModel @Inject constructor(
+class CreateOrderViewModel @Inject constructor(
     private val orderManager: OrderManager,
     private val navigator: Navigator
 ) : ViewModel() {
 
-    val state: MutableStateFlow<TrackableIdScreenState> = MutableStateFlow(TrackableIdScreenState())
+    val state: MutableStateFlow<CreateOrderScreenState> = MutableStateFlow(CreateOrderScreenState())
 
     fun onFromLatitudeChanged(value: String) = viewModelScope.launch {
         updateState {
@@ -42,22 +42,22 @@ class TrackableIdViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateState(update: TrackableIdScreenState.() -> TrackableIdScreenState) {
+    private suspend fun updateState(update: CreateOrderScreenState.() -> CreateOrderScreenState) {
         state.emit(state.value.update())
     }
 
     fun onClick() = viewModelScope.launch {
-        val trackableIdScreenState = state.value
+        val createOrderScreenState = state.value
         orderManager.createOrder(
-            trackableIdScreenState.parseFromCoordinates(),
-            trackableIdScreenState.parseToCoordinates()
+            createOrderScreenState.parseFromCoordinates(),
+            createOrderScreenState.parseToCoordinates()
         )
         navigator.navigateToDashboard()
     }
 
-    private fun TrackableIdScreenState.parseFromCoordinates() =
+    private fun CreateOrderScreenState.parseFromCoordinates() =
         GeoCoordinates.fromStrings(fromLatitude, fromLongitude)
 
-    private fun TrackableIdScreenState.parseToCoordinates() =
+    private fun CreateOrderScreenState.parseToCoordinates() =
         GeoCoordinates.fromStrings(toLatitude, toLongitude)
 }

@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.ui.screen.trackableid
+package com.ably.tracking.demo.subscriber.ui.screen.createorder
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,19 +25,19 @@ import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
 import com.ably.tracking.demo.subscriber.ui.widget.StyledDecimalTextField
 
 @Composable
-fun TrackableIdScreen(
-    viewModel: TrackableIdViewModel = hiltViewModel()
+fun CreateOrderScreen(
+    viewModel: CreateOrderViewModel = hiltViewModel()
 ) = AATSubscriberDemoTheme {
     Scaffold(
         topBar = { AATAppBar() }
     ) {
-        TrackableIdScreenContent(viewModel)
+        CreateOrderScreenContent(viewModel)
     }
 }
 
 @Composable
-fun TrackableIdScreenContent(
-    viewModel: TrackableIdViewModel
+fun CreateOrderScreenContent(
+    viewModel: CreateOrderViewModel
 ) = AATSubscriberDemoTheme {
     Column(
         modifier = Modifier
@@ -45,7 +45,7 @@ fun TrackableIdScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        val viewState: State<TrackableIdScreenState> = viewModel.state.collectAsState()
+        val viewState: State<CreateOrderScreenState> = viewModel.state.collectAsState()
         StyledDecimalTextField(
             label = R.string.order_from_latitude_label,
             value = viewState.value.fromLatitude,

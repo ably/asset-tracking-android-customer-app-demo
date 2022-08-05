@@ -9,8 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ably.tracking.demo.subscriber.common.FusedLocationSource
 import com.ably.tracking.demo.subscriber.ui.screen.Navigator
+import com.ably.tracking.demo.subscriber.ui.screen.createorder.CreateOrderScreen
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardScreen
-import com.ably.tracking.demo.subscriber.ui.screen.trackableid.TrackableIdScreen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,9 +32,9 @@ class MainActivity : ComponentActivity() {
             navigator.navController = navController
             NavHost(
                 navController = navController,
-                startDestination = Routes.TrackableId.pathWithParams
+                startDestination = Routes.CreateOrder.pathWithParams
             ) {
-                composable(Routes.TrackableId.pathWithParams) { TrackableIdScreen() }
+                composable(Routes.CreateOrder.pathWithParams) { CreateOrderScreen() }
                 composable(Routes.Dashboard.path) {
                     DashboardScreen(
                         locationSource = locationSource,
