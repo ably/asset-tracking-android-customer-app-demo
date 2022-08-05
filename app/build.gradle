@@ -25,7 +25,12 @@ android {
         }
 
         manifestPlaceholders.GOOGLE_MAPS_API_KEY = findProperty("GOOGLE_MAPS_API_KEY")
+        buildConfigField("String", "GOOGLE_MAPS_API_KEY", "\"${findProperty("GOOGLE_MAPS_API_KEY")}\"")
         buildConfigField("String", "ABLY_API_KEY", "\"${findProperty("ABLY_API_KEY")}\"")
+        buildConfigField("String", "AUTHORIZATION_HEADER_BASE_64", "\"${findProperty("AUTHORIZATION_HEADER_BASE_64")}\"")
+        buildConfigField("String", "AUTHORIZATION_USERNAME", "\"${findProperty("AUTHORIZATION_USERNAME")}\"")
+        buildConfigField("String", "FIREBASE_REGION", "\"${findProperty("FIREBASE_REGION")}\"")
+        buildConfigField("String", "FIREBASE_PROJECT_NAME", "\"${findProperty("FIREBASE_PROJECT_NAME")}\"")
     }
 
 signingConfigs {
@@ -99,6 +104,11 @@ dependencies {
     // AAT
     implementation "com.ably.tracking:subscribing-sdk:$aat_version"
     implementation "com.ably.tracking:ui-sdk:$aat_version"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 
     // Dependency injection
     implementation "com.google.dagger:hilt-android:$hilt_version"
