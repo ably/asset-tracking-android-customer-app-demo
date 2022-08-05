@@ -70,7 +70,6 @@ class DashboardViewModel @Inject constructor(
         updateState {
             copy(trackableState = trackableState)
         }
-        state.emit(state.value.copy(trackableState = trackableState))
     }
 
     private suspend fun onTrackableLocationChanged(trackableLocation: LocationUpdate) {

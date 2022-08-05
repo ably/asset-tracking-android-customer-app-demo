@@ -18,19 +18,46 @@ class TrackableIdViewModel @Inject constructor(
 
     val state: MutableStateFlow<TrackableIdScreenState> = MutableStateFlow(TrackableIdScreenState())
 
-    fun onTrackableIdChanged(value: String) = viewModelScope.launch {
-        state.emit(
-            state.value.copy(
-                trackableId = value,
-                isConfirmButtonEnabled = value.isNotBlank()
-            )
-        )
+    fun onFromLatitudeChanged(value: String) = viewModelScope.launch {
+        updateState {
+            copy(fromLatitude = value)
+        }
+    }
+
+    fun onFromLongitudeChanged(value: String) = viewModelScope.launch {
+        updateState {
+            copy(fromLongitude = value)
+        }
+    }
+
+    fun onToLatitudeChanged(value: String) = viewModelScope.launch {
+        updateState {
+            copy(toLatitude = value)
+        }
+    }
+
+    fun onToLongitudeChanged(value: String) = viewModelScope.launch {
+        updateState {
+            copy(toLongitude = value)
+        }
+    }
+
+    private suspend fun updateState(update: TrackableIdScreenState.() -> TrackableIdScreenState) {
+        state.emit(state.value.update())
     }
 
     fun onClick() = viewModelScope.launch {
-        val from = GeoCoordinates(51.1065859, 17.0312766)
-        val to = GeoCoordinates(51.1114666, 17.025932)
-        orderManager.createOrder(from, to)
+        val trackableIdScreenState = state.value
+        orderManager.createOrder(
+            trackableIdScreenState.parseFromCoordinates(),
+            trackableIdScreenState.parseToCoordinates()
+        )
         navigator.navigateToDashboard()
     }
+
+    private fun TrackableIdScreenState.parseFromCoordinates() =
+        GeoCoordinates.fromStrings(fromLatitude, fromLongitude)
+
+    private fun TrackableIdScreenState.parseToCoordinates() =
+        GeoCoordinates.fromStrings(toLatitude, toLongitude)
 }
