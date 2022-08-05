@@ -8,8 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ably.tracking.demo.subscriber.common.FusedLocationSource
+import com.ably.tracking.demo.subscriber.ui.screen.Navigator
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardScreen
 import com.ably.tracking.demo.subscriber.ui.screen.trackableid.TrackableIdScreen
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -19,18 +21,22 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var locationSource: FusedLocationSource
 
+    @Inject
+    lateinit var navigator: Navigator
+
+    @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val navController: NavHostController = rememberNavController()
+            navigator.navController = navController
             NavHost(
                 navController = navController,
                 startDestination = Routes.TrackableId.pathWithParams
             ) {
-                composable(Routes.TrackableId.pathWithParams) { TrackableIdScreen(navController = navController) }
-                composable(Routes.Dashboard.pathWithParams) { backStackEntry ->
+                composable(Routes.TrackableId.pathWithParams) { TrackableIdScreen() }
+                composable(Routes.Dashboard.path) {
                     DashboardScreen(
-                        trackableId = backStackEntry.arguments!!.getString(Routes.Dashboard.paramTrackableId)!!,
                         locationSource = locationSource,
                         navController = navController
                     )

@@ -7,7 +7,6 @@ import com.ably.tracking.TrackableState
 class DashboardScreenStatePreview : PreviewParameterProvider<DashboardScreenState> {
     override val values = sequenceOf(
         DashboardScreenState(
-            isAssetTrackerReady = true,
             trackableState = TrackableState.Failed(
                 errorInformation = ErrorInformation("Error")
             )

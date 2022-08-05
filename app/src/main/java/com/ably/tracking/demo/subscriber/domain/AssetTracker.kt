@@ -7,7 +7,6 @@ import com.ably.tracking.Resolution
 import com.ably.tracking.TrackableState
 import com.ably.tracking.connection.Authentication
 import com.ably.tracking.connection.ConnectionConfiguration
-import com.ably.tracking.demo.subscriber.BuildConfig
 import com.ably.tracking.subscriber.Subscriber
 import kotlinx.coroutines.flow.Flow
 
@@ -15,12 +14,7 @@ class AssetTracker {
 
     private lateinit var subscriber: Subscriber
 
-    private val connectionConfiguration: ConnectionConfiguration = ConnectionConfiguration(
-        Authentication.basic(
-            clientId = "AATSubscriberDemo",
-            apiKey = BuildConfig.ABLY_API_KEY
-        )
-    )
+    lateinit var trackableId: String
 
     private val foregroundResolution: Resolution = Resolution(
         accuracy = Accuracy.MAXIMUM,
@@ -34,15 +28,23 @@ class AssetTracker {
         minimumDisplacement = 10.0
     )
 
-    suspend fun startTracking(trackableId: String) {
+    suspend fun startTracking(orderId: String, ablyToken: String, authUsername: String) {
+        trackableId = orderId
         Log.d("AssetTracker", "Starting subscriber")
         subscriber = Subscriber.subscribers()
-            .connection(connectionConfiguration)
+            .connection(connectionConfiguration(ablyToken, authUsername))
             .resolution(foregroundResolution)
             .logHandler(SubscriberLogHandler)
-            .trackingId(trackableId)
+            .trackingId(orderId)
             .start()
     }
+
+    private fun connectionConfiguration(ablyToken: String, authUsername: String) =
+        ConnectionConfiguration(
+            Authentication.jwt(authUsername) {
+                ablyToken
+            }
+        )
 
     fun observeTrackableState(): Flow<TrackableState> = subscriber.trackableStates
 

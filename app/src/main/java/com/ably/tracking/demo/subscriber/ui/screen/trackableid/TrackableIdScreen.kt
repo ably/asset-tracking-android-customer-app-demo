@@ -22,27 +22,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.ably.tracking.demo.subscriber.R
-import com.ably.tracking.demo.subscriber.Routes
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
 
 @Composable
 fun TrackableIdScreen(
-    navController: NavController,
     viewModel: TrackableIdViewModel = hiltViewModel()
 ) = AATSubscriberDemoTheme {
     Scaffold(
         topBar = { AATAppBar() }
     ) {
-        TrackableIdScreenContent(navController, viewModel)
+        TrackableIdScreenContent(viewModel)
     }
 }
 
 @Composable
 fun TrackableIdScreenContent(
-    navController: NavController,
     viewModel: TrackableIdViewModel
 ) = AATSubscriberDemoTheme {
     Column(
@@ -80,7 +76,7 @@ fun TrackableIdScreenContent(
                 contentColor = Color.Black
             ),
             onClick = {
-                navController.navigate(Routes.Dashboard.path + viewState.value.trackableId)
+                viewModel.onClick()
             }
         ) {
             Text(text = stringResource(id = R.string.confirm))

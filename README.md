@@ -32,7 +32,10 @@ To do this, create a file in the project root (if it doesn't exist already) name
 , and add the following values:
 
 ```bash
-ABLY_API_KEY=get_value_from_ably_dashboard
 MAPBOX_DOWNLOADS_TOKEN=create_token_with_downloads_read_secret_scope
 GOOGLE_MAPS_API_KEY=create_api_key_with_geolocation_maps_sdk
+AUTHORIZATION_HEADER_BASE_64=create_user_in_firestore
+AUTHORIZATION_USERNAME=create_user_in_firestore
+FIREBASE_REGION=create_firebase_action
+FIREBASE_PROJECT_NAME=create_firebase_action
 ```

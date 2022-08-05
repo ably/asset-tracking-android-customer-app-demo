@@ -25,8 +25,7 @@ android {
         }
 
         manifestPlaceholders.GOOGLE_MAPS_API_KEY = findProperty("GOOGLE_MAPS_API_KEY")
-        buildConfigField("String", "GOOGLE_MAPS_API_KEY", "\"${findProperty("GOOGLE_MAPS_API_KEY")}\"")
-        buildConfigField("String", "ABLY_API_KEY", "\"${findProperty("ABLY_API_KEY")}\"")
+
         buildConfigField("String", "AUTHORIZATION_HEADER_BASE_64", "\"${findProperty("AUTHORIZATION_HEADER_BASE_64")}\"")
         buildConfigField("String", "AUTHORIZATION_USERNAME", "\"${findProperty("AUTHORIZATION_USERNAME")}\"")
         buildConfigField("String", "FIREBASE_REGION", "\"${findProperty("FIREBASE_REGION")}\"")

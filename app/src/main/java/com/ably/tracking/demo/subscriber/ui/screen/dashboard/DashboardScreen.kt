@@ -3,21 +3,17 @@
 package com.ably.tracking.demo.subscriber.ui.screen.dashboard
 
 import android.Manifest
-import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetState
 import androidx.compose.material.BottomSheetValue
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -33,7 +29,6 @@ import androidx.compose.runtime.DisposableEffectResult
 import androidx.compose.runtime.DisposableEffectScope
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -63,10 +58,10 @@ import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 
+@ExperimentalPermissionsApi
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DashboardScreen(
-    trackableId: String,
     locationSource: FusedLocationSource,
     navController: NavController,
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
@@ -81,7 +76,6 @@ fun DashboardScreen(
         val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
         )
-
         BottomSheetScaffold(
             scaffoldState = bottomSheetScaffoldState,
             sheetContent = {
@@ -114,29 +108,21 @@ fun DashboardScreen(
             DisposableEffect(lifecycleOwner) {
                 observeLifecycleEvents(
                     dashboardViewModel,
-                    trackableId,
                     locationPermissionState,
                     lifecycleOwner
                 )
             }
-
-            Crossfade(targetState = state.value.isAssetTrackerReady) { isAssetTrackerReady ->
-                if (isAssetTrackerReady) {
-                    DashboardScreenContent(
-                        viewModel = dashboardViewModel,
-                        locationPermissionState = locationPermissionState,
-                        locationSource = locationSource
-                    )
-                } else {
-                    DashboardScreenLoadingIndicator()
-                }
-            }
+            DashboardScreenContent(
+                viewModel = dashboardViewModel,
+                locationPermissionState = locationPermissionState,
+                locationSource = locationSource
+            )
         }
     }
 
+@ExperimentalPermissionsApi
 private fun DisposableEffectScope.observeLifecycleEvents(
     dashboardViewModel: DashboardViewModel,
-    trackableId: String,
     locationPermissionState: PermissionState,
     lifecycleOwner: LifecycleOwner
 ): DisposableEffectResult {
@@ -144,7 +130,6 @@ private fun DisposableEffectScope.observeLifecycleEvents(
         onLifecycleEvent(
             event,
             dashboardViewModel,
-            trackableId,
             locationPermissionState
         )
     }
@@ -156,14 +141,14 @@ private fun DisposableEffectScope.observeLifecycleEvents(
     }
 }
 
+@ExperimentalPermissionsApi
 private fun onLifecycleEvent(
     event: Lifecycle.Event,
     dashboardViewModel: DashboardViewModel,
-    trackableId: String,
     locationPermissionState: PermissionState
 ) {
     when (event) {
-        Lifecycle.Event.ON_CREATE -> dashboardViewModel.onCreated(trackableId)
+        Lifecycle.Event.ON_CREATE -> dashboardViewModel.onCreated()
         Lifecycle.Event.ON_START -> locationPermissionState.launchPermissionRequest()
         Lifecycle.Event.ON_RESUME -> dashboardViewModel.onEnterForeground()
         Lifecycle.Event.ON_PAUSE -> dashboardViewModel.onEnterBackground()
@@ -178,23 +163,6 @@ private fun State<DashboardScreenState>.toLocationUpdateBottomSheetData() =
         lastLocationUpdateInterval = value.lastLocationUpdateInterval,
         averageLocationUpdateInterval = value.averageLocationUpdateInterval
     )
-
-@Preview
-@Composable
-fun DashboardScreenLoadingIndicator() = AATSubscriberDemoTheme {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier.align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressIndicator(
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = stringResource(id = R.string.loading))
-        }
-    }
-}
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable

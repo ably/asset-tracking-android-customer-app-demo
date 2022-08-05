@@ -5,11 +5,12 @@ import com.ably.tracking.demo.subscriber.domain.GeoCoordinates
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.Ignore
 import org.junit.Test
 
 
 @ExperimentalCoroutinesApi
-//@Ignore("Ignoring as those tests perform actual api calls")
+@Ignore("Ignoring as those tests perform actual api calls")
 internal class ApiDeliveryServiceDataSourceTest {
 
     private val okHttpClient = buildOkHttpClient()
@@ -22,18 +23,6 @@ internal class ApiDeliveryServiceDataSourceTest {
     private val deliveryServiceApiSource = ApiDeliveryServiceDataSource(deliveryServiceApi)
 
     private val authorizationHeader = BuildConfig.AUTHORIZATION_HEADER_BASE_64
-
-    @Test
-    fun `call to getAblyToken returns non-empty value`() = runTest {
-        // given
-
-        // when
-        val ablyToken = deliveryServiceApiSource.getAblyToken(authorizationHeader)
-
-        // then
-        assertThat(ablyToken)
-            .isNotEmpty()
-    }
 
     @Test
     fun `call to createOrder returns non-empty value`() = runTest {

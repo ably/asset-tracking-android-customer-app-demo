@@ -7,8 +7,6 @@ sealed interface Routes {
     }
 
     object Dashboard : Routes {
-        const val paramTrackableId = "trackableId"
         const val path = "dashboard/"
-        const val pathWithParams = "dashboard/{$paramTrackableId}"
     }
 }

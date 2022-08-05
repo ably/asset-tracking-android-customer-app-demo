@@ -10,10 +10,6 @@ class ApiDeliveryServiceDataSource(private val deliveryServiceApi: DeliveryServi
         private const val AUTHORIZATION_HEADER_PREFIX = "Basic "
     }
 
-    override suspend fun getAblyToken(authBase64: String) =
-        deliveryServiceApi.getAblyToken(AUTHORIZATION_HEADER_PREFIX + authBase64).token
-
-
     override suspend fun createOrder(authBase64: String, from: GeoCoordinates, to: GeoCoordinates) =
         deliveryServiceApi.createOrder(
             AUTHORIZATION_HEADER_PREFIX + authBase64,
@@ -21,5 +17,5 @@ class ApiDeliveryServiceDataSource(private val deliveryServiceApi: DeliveryServi
         ).toOrder()
 
     private fun CreateOrderResponse.toOrder() =
-        Order(orderId, ably.token)
+        Order(orderId.toString(), ably.token)
 }
