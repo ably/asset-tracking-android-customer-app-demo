@@ -67,5 +67,4 @@ object DomainModule {
     @Provides
     fun provideDeliveryServiceDataSource(deliveryServiceApi: DeliveryServiceApi): DeliveryServiceDataSource =
         ApiDeliveryServiceDataSource(deliveryServiceApi)
-
 }

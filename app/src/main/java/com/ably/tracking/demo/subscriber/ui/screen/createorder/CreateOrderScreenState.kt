@@ -10,8 +10,8 @@ data class CreateOrderScreenState(
     val toLongitude: String = "17.0312766"
 ) {
     val isConfirmButtonEnabled: Boolean
-        get() = fromLatitude.canParseToDouble()
-            && fromLongitude.canParseToDouble()
-            && toLatitude.canParseToDouble()
-            && toLongitude.canParseToDouble()
+        get() = fromLatitude.canParseToDouble() &&
+            fromLongitude.canParseToDouble() &&
+            toLatitude.canParseToDouble() &&
+            toLongitude.canParseToDouble()
 }

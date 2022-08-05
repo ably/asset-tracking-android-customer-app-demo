@@ -13,5 +13,4 @@ class Navigator @Inject constructor() {
     fun navigateToDashboard() {
         navController.navigate(Routes.Dashboard.path)
     }
-
 }

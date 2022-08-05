@@ -5,7 +5,7 @@ data class GeoCoordinates(
     val longitude: Double
 ) {
     companion object {
-        fun fromStrings(latitude: String, longitude: String)=
+        fun fromStrings(latitude: String, longitude: String) =
             GeoCoordinates(latitude.toDouble(), longitude.toDouble())
     }
 }
