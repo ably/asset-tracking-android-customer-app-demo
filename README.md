@@ -23,6 +23,7 @@ the project root:
 - `MAPBOX_DOWNLOADS_TOKEN`: On
   the [Mapbox Access Tokens page](https://account.mapbox.com/access-tokens/), create a token with
   the `DOWNLOADS:READ` secret scope.
+- `GOOGLE_MAPS_API_KEY`: Create an API key in Google Cloud, ensuring it has both `Geolocation` and `Maps SDK for Android` API.
 - `AUTHORIZATION_HEADER_BASE_64`: Base64 encoded "user:password" used to authorize with the backend service. For more details see [Ably Asset Tracking Backend Demo](https://github.com/ably/asset-tracking-backend-demo)
 - `AUTHORIZATION_USERNAME`: username used to authorize with the backend service and as clientId
 - `FIREBASE_REGION`: Firebase region to which the backend is deployed, used to determine api host
