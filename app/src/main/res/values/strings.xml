@@ -24,6 +24,7 @@
     <string name="trackable_location_average_interval">Average update interval:</string>
     <string name="trackable_location_desired_interval">Desired update interval:</string>
 
+    <string name="trackable_id_label">Trackable id: %s</string>
     <string name="trackable_state_label_normal">Trackable state:</string>
     <string name="trackable_state_label_error">Error:</string>
     <string name="trackable_state_no_data_reported">No trackable state reported</string>

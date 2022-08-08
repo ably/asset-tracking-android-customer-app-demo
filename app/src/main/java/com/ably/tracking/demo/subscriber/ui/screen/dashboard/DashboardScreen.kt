@@ -209,6 +209,8 @@ fun DashboardScreenContent(
     ) {
         val viewState = viewModel.state.collectAsState().value
 
+        TrackableIdRow(state = viewState)
+
         TrackableStateRow(state = viewState)
 
         when (viewState.trackableState) {
@@ -223,6 +225,19 @@ fun DashboardScreenContent(
             locationSource = locationSource
         )
     }
+}
+
+@Preview
+@Composable
+fun TrackableIdRow(
+    @PreviewParameter(DashboardScreenStatePreview::class) state: DashboardScreenState
+) = AATSubscriberDemoTheme {
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+        text = stringResource(R.string.trackable_id_label, state.trackableId)
+    )
 }
 
 @Preview
