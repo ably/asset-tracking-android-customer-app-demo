@@ -11,3 +11,6 @@ fun TrackableState.toStringRes(): Int = when (this) {
     is TrackableState.Failed -> R.string.trackable_state_failed
     is TrackableState.Offline -> R.string.trackable_state_offline
 }
+
+fun String.canParseToDouble() =
+    toDoubleOrNull() != null

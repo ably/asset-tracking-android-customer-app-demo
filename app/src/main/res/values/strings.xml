@@ -4,9 +4,12 @@
     <string name="image_content_description_icon_switch_map_to_trackable">Switch map mode to follow trackable</string>
     <string name="image_content_description_icon_switch_map_to_location">Switch map mode to follow both user location and trackable</string>
     <string name="loading">AAT is loading…</string>
-    <string name="confirm">Confirm</string>
 
-    <string name="trackable_id">Trackable ID</string>
+    <string name="order_from_latitude_label">Source latitude</string>
+    <string name="order_from_longitude_label">Source longitude</string>
+    <string name="order_to_latitude_label">Destination latitude</string>
+    <string name="order_to_longitude_label">Destination longitude</string>
+    <string name="create_order">Create order</string>
 
     <string name="trackable_subscription_failed_dialog_message">Subscribing to updates failed, please try again later.</string>
     <string name="trackable_subscription_failed_dialog_button_text">OK</string>
