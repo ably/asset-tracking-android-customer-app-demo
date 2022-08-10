@@ -16,29 +16,33 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.common.doOnCreateLifecycleEvent
+import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
+import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
 import com.ably.tracking.demo.subscriber.ui.widget.SingleButtonAlertDialog
+import com.ably.tracking.demo.subscriber.ui.widget.StyledTextButton
 import com.ably.tracking.demo.subscriber.ui.widget.StyledTextField
-import com.ably.tracking.demo.subscriber.ui.widget.TextButton
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
-    val state = viewModel.state.collectAsState()
-    doOnCreateLifecycleEvent {
-        viewModel.onCreated()
+fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) =
+    AATSubscriberDemoTheme {
+        val state = viewModel.state.collectAsState()
+        doOnCreateLifecycleEvent {
+            viewModel.onCreated()
+        }
+        Scaffold(
+            topBar = { AATAppBar() },
+            content = {
+                LoginScreenContent(
+                    state = state.value,
+                    onDialogClose = viewModel::onFetchingSecretsFailedDialogClosed,
+                    onUsernameValueChange = viewModel::onUsernameChanged,
+                    onPasswordValueChange = viewModel::onPasswordChanged,
+                    onContinueClicked = viewModel::onContinueClicked
+                )
+            },
+            modifier = Modifier.fillMaxSize(),
+        )
     }
-    Scaffold(
-        content = {
-            LoginScreenContent(
-                state = state.value,
-                onDialogClose = viewModel::onFetchingSecretsFailedDialogClosed,
-                onUsernameValueChange = viewModel::onUsernameChanged,
-                onPasswordValueChange = viewModel::onPasswordChanged,
-                onContinueClicked = viewModel::onContinueClicked
-            )
-        },
-        modifier = Modifier.fillMaxSize(),
-    )
-}
 
 @Preview
 @Composable
@@ -48,7 +52,7 @@ fun LoginScreenContent(
     onUsernameValueChange: (String) -> Unit = {},
     onPasswordValueChange: (String) -> Unit = {},
     onContinueClicked: () -> Unit = {}
-) {
+) = AATSubscriberDemoTheme {
     if (state.showFetchingSecretsFailedDialog) {
         SingleButtonAlertDialog(
             title = R.string.fetching_secrets_failed_dialog_title,
@@ -98,5 +102,5 @@ fun UserCredentialsInputs(
         visualTransformation = PasswordVisualTransformation(),
         onValueChange = onPasswordValueChange
     )
-    TextButton(text = R.string.continue_button, onClick = onContinueClicked)
+    StyledTextButton(text = R.string.continue_button, onClick = onContinueClicked)
 }
