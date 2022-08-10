@@ -1,16 +1,18 @@
 package com.ably.tracking.demo.subscriber.domain
 
 import com.ably.tracking.demo.subscriber.api.DeliveryServiceDataSource
+import com.ably.tracking.demo.subscriber.secrets.SecretsManager
 import javax.inject.Inject
 
 class OrderManager @Inject constructor(
     private val deliveryServiceDataSource: DeliveryServiceDataSource,
     private val assetTracker: AssetTracker,
-    private val authBase64: String,
-    private val authUsername: String
+    private val secretsManager: SecretsManager
 ) {
     suspend fun createOrder(from: GeoCoordinates, to: GeoCoordinates) {
-        val (orderId, ablyToken) = deliveryServiceDataSource.createOrder(authBase64, from, to)
+        val authenticationHeader = secretsManager.getAuthorizationHeader()!!
+        val authUsername = secretsManager.getUsername()!!
+        val (orderId, ablyToken) = deliveryServiceDataSource.createOrder(authenticationHeader, from, to)
         assetTracker.startTracking(orderId, ablyToken, authUsername)
     }
 
