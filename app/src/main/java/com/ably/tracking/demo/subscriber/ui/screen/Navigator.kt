@@ -14,7 +14,7 @@ class Navigator @Inject constructor() {
         navController.navigate(Routes.Dashboard.path)
     }
 
-    fun navigateToCreateOrder(){
+    fun navigateToCreateOrder() {
         navController.navigate(Routes.CreateOrder.path)
     }
 }

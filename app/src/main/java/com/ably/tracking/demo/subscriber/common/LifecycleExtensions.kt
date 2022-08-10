@@ -9,7 +9,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 
-
 @Composable
 fun doOnCreateLifecycleEvent(onLifecycleEvent: () -> Unit) {
     doOnLifecycleEvent {
@@ -41,5 +40,3 @@ private fun DisposableEffectScope.observeLifecycleEvents(
         lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
     }
 }
-
-

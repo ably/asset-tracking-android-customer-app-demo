@@ -91,7 +91,7 @@ fun DashboardScreen(
 
             if (state.value.showSubscriptionFailedDialog) {
                 SingleButtonAlertDialog(
-                    title= R.string.trackable_subscription_failed_dialog_title,
+                    title = R.string.trackable_subscription_failed_dialog_title,
                     text = R.string.trackable_subscription_failed_dialog_message,
                     buttonText = R.string.ok
                 ) {

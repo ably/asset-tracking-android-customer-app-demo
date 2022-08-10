@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun StyledCircularProgressIndicator(){
+fun StyledCircularProgressIndicator() {
     CircularProgressIndicator(
-        color= MaterialTheme.colors.secondary,
+        color = MaterialTheme.colors.secondary,
         modifier = Modifier.size(64.dp),
         strokeWidth = 6.dp
     )
