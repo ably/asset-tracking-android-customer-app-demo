@@ -4,13 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ably.tracking.demo.subscriber.secrets.SecretsManager
 import com.ably.tracking.demo.subscriber.ui.screen.Navigator
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class LoginViewModel @Inject constructor(
+class LoginViewModel(
     private val secretsManager: SecretsManager,
     private val navigator: Navigator
 ) : ViewModel() {

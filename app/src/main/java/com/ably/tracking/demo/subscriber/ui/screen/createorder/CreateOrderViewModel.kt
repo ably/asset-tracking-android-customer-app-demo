@@ -5,13 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.ably.tracking.demo.subscriber.domain.GeoCoordinates
 import com.ably.tracking.demo.subscriber.domain.OrderManager
 import com.ably.tracking.demo.subscriber.ui.screen.Navigator
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class CreateOrderViewModel @Inject constructor(
+class CreateOrderViewModel(
     private val orderManager: OrderManager,
     private val navigator: Navigator
 ) : ViewModel() {
