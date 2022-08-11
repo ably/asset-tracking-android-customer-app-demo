@@ -32,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.ably.tracking.TrackableState
@@ -52,6 +51,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import org.koin.androidx.compose.getViewModel
 
 @ExperimentalPermissionsApi
 @OptIn(ExperimentalMaterialApi::class)
@@ -59,7 +59,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 fun DashboardScreen(
     locationSource: FusedLocationSource,
     navController: NavController,
-    dashboardViewModel: DashboardViewModel = hiltViewModel()
+    dashboardViewModel: DashboardViewModel = getViewModel()
 ) =
     AATSubscriberDemoTheme {
         val viewState: State<DashboardScreenState> = dashboardViewModel.state.collectAsState()

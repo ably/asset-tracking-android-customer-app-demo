@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @ActivityScoped
 class FusedLocationSource @Inject constructor(
-    @ActivityContext private val activity: Context
+    @ActivityContext private val context: Context
 ) :
     LocationSource {
 
@@ -38,7 +38,7 @@ class FusedLocationSource @Inject constructor(
     @SuppressLint("MissingPermission")
     override fun activate(listener: LocationSource.OnLocationChangedListener) {
         if (!this::fusedLocationClient.isInitialized) {
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         }
 
         onLocationChangedListener = listener

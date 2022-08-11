@@ -13,17 +13,13 @@ import com.ably.tracking.demo.subscriber.ui.screen.createorder.CreateOrderScreen
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardScreen
 import com.ably.tracking.demo.subscriber.ui.screen.login.LoginScreen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var locationSource: FusedLocationSource
+    private val locationSource: FusedLocationSource by inject()
 
-    @Inject
-    lateinit var navigator: Navigator
+    private val navigator: Navigator by inject()
 
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {

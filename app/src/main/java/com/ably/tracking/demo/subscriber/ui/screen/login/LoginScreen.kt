@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.common.doOnCreateLifecycleEvent
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
@@ -19,9 +18,10 @@ import com.ably.tracking.demo.subscriber.ui.widget.SingleButtonAlertDialog
 import com.ably.tracking.demo.subscriber.ui.widget.StyledCircularProgressIndicator
 import com.ably.tracking.demo.subscriber.ui.widget.StyledTextButton
 import com.ably.tracking.demo.subscriber.ui.widget.StyledTextField
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) =
+fun LoginScreen(viewModel: LoginViewModel = getViewModel()) =
     AATSubscriberDemoTheme {
         val state = viewModel.state.collectAsState()
         doOnCreateLifecycleEvent {

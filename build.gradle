@@ -4,6 +4,7 @@ buildscript {
         accompanist_version = '0.24.10-beta'
         lifecycle_version = '2.4.1'
         aat_version = '1.1.0-rc.7'
+        koin_version = '3.2.0'
         hilt_version = '2.42'
     }
 

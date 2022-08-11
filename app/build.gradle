@@ -104,6 +104,10 @@ dependencies {
     implementation "com.ably.tracking:subscribing-sdk:$aat_version"
     implementation "com.ably.tracking:ui-sdk:$aat_version"
 
+    // Koin for Android
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"

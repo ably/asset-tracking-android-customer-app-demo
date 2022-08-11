@@ -10,17 +10,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
 import com.ably.tracking.demo.subscriber.ui.widget.StyledCircularProgressIndicator
 import com.ably.tracking.demo.subscriber.ui.widget.StyledTextButton
 import com.ably.tracking.demo.subscriber.ui.widget.StyledTextField
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun CreateOrderScreen(
-    viewModel: CreateOrderViewModel = hiltViewModel()
+    viewModel: CreateOrderViewModel = getViewModel()
 ) = AATSubscriberDemoTheme {
     Scaffold(
         topBar = { AATAppBar() }
