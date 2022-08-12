@@ -10,14 +10,8 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.model.LatLng
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.scopes.ActivityScoped
-import javax.inject.Inject
 
-@ActivityScoped
-class FusedLocationSource @Inject constructor(
-    @ActivityContext private val activity: Context
-) :
+class FusedLocationSource constructor(private val context: Context) :
     LocationSource {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -38,7 +32,7 @@ class FusedLocationSource @Inject constructor(
     @SuppressLint("MissingPermission")
     override fun activate(listener: LocationSource.OnLocationChangedListener) {
         if (!this::fusedLocationClient.isInitialized) {
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         }
 
         onLocationChangedListener = listener

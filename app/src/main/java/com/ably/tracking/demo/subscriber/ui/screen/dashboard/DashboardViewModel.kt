@@ -12,16 +12,13 @@ import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimator
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimatorPosition
 import com.ably.tracking.demo.subscriber.domain.OrderManager
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-@HiltViewModel
-class DashboardViewModel @Inject constructor(
+class DashboardViewModel(
     private val orderManager: OrderManager,
     private val assetTrackerAnimator: AssetTrackerAnimator
 ) : ViewModel() {
