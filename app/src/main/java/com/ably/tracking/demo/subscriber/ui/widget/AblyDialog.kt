@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SingleButtonAlertDialog(
+    @StringRes title: Int,
     @StringRes text: Int,
     @StringRes buttonText: Int,
     onButtonClick: () -> Unit
@@ -25,7 +26,13 @@ fun SingleButtonAlertDialog(
         title = {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = stringResource(id = text)
+                text = stringResource(id = title)
+            )
+        },
+        text = {
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text = stringResource(text)
             )
         },
         confirmButton = {

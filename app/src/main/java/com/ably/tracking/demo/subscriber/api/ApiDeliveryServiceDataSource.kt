@@ -10,6 +10,9 @@ class ApiDeliveryServiceDataSource(private val deliveryServiceApi: DeliveryServi
         private const val AUTHORIZATION_HEADER_PREFIX = "Basic "
     }
 
+    override suspend fun getMapboxToken(authBase64: String) =
+        deliveryServiceApi.getMapboxToken(AUTHORIZATION_HEADER_PREFIX + authBase64).token
+
     override suspend fun createOrder(authBase64: String, from: GeoCoordinates, to: GeoCoordinates) =
         deliveryServiceApi.createOrder(
             AUTHORIZATION_HEADER_PREFIX + authBase64,

@@ -4,6 +4,13 @@
     <string name="image_content_description_icon_switch_map_to_trackable">Switch map mode to follow trackable</string>
     <string name="image_content_description_icon_switch_map_to_location">Switch map mode to follow both user location and trackable</string>
     <string name="loading">AAT is loading…</string>
+    <string name="ok">OK</string>
+
+    <string name="fetching_secrets_failed_dialog_title">Fetching secrets failed</string>
+    <string name="fetching_secrets_failed_dialog_text">Check if provided credentials are correct</string>
+    <string name="username_label">Enter username</string>
+    <string name="password_label">Enter password</string>
+    <string name="continue_button">Continue</string>
 
     <string name="order_from_latitude_label">Source latitude</string>
     <string name="order_from_longitude_label">Source longitude</string>
@@ -11,8 +18,8 @@
     <string name="order_to_longitude_label">Destination longitude</string>
     <string name="create_order">Create order</string>
 
-    <string name="trackable_subscription_failed_dialog_message">Subscribing to updates failed, please try again later.</string>
-    <string name="trackable_subscription_failed_dialog_button_text">OK</string>
+    <string name="trackable_subscription_failed_dialog_title">Subscribing to updates failed.</string>
+    <string name="trackable_subscription_failed_dialog_message">Please try again later.</string>
 
     <string name="trackable_location_no_data_reported">No trackable location reported</string>
     <string name="trackable_location_latitude">Latitude:</string>

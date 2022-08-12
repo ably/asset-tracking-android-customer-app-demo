@@ -24,26 +24,21 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.DisposableEffectResult
-import androidx.compose.runtime.DisposableEffectScope
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import com.ably.tracking.TrackableState
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.common.FusedLocationSource
+import com.ably.tracking.demo.subscriber.common.doOnLifecycleEvent
 import com.ably.tracking.demo.subscriber.common.toStringRes
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT
 import com.ably.tracking.demo.subscriber.ui.bottomsheet.LocationUpdateBottomSheet
@@ -64,8 +59,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 fun DashboardScreen(
     locationSource: FusedLocationSource,
     navController: NavController,
-    dashboardViewModel: DashboardViewModel = hiltViewModel(),
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    dashboardViewModel: DashboardViewModel = hiltViewModel()
 ) =
     AATSubscriberDemoTheme {
         val viewState: State<DashboardScreenState> = dashboardViewModel.state.collectAsState()
@@ -97,21 +91,19 @@ fun DashboardScreen(
 
             if (state.value.showSubscriptionFailedDialog) {
                 SingleButtonAlertDialog(
+                    title = R.string.trackable_subscription_failed_dialog_title,
                     text = R.string.trackable_subscription_failed_dialog_message,
-                    buttonText = R.string.trackable_subscription_failed_dialog_button_text
+                    buttonText = R.string.ok
                 ) {
                     dashboardViewModel.onSubscriptionFailedDialogClose()
                     navController.popBackStack()
                 }
             }
 
-            DisposableEffect(lifecycleOwner) {
-                observeLifecycleEvents(
-                    dashboardViewModel,
-                    locationPermissionState,
-                    lifecycleOwner
-                )
+            doOnLifecycleEvent { event ->
+                onLifecycleEvent(event, dashboardViewModel, locationPermissionState)
             }
+
             DashboardScreenContent(
                 viewModel = dashboardViewModel,
                 locationPermissionState = locationPermissionState,
@@ -119,27 +111,6 @@ fun DashboardScreen(
             )
         }
     }
-
-@ExperimentalPermissionsApi
-private fun DisposableEffectScope.observeLifecycleEvents(
-    dashboardViewModel: DashboardViewModel,
-    locationPermissionState: PermissionState,
-    lifecycleOwner: LifecycleOwner
-): DisposableEffectResult {
-    val lifecycleObserver = LifecycleEventObserver { _, event ->
-        onLifecycleEvent(
-            event,
-            dashboardViewModel,
-            locationPermissionState
-        )
-    }
-
-    lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
-
-    return onDispose {
-        lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
-    }
-}
 
 @ExperimentalPermissionsApi
 private fun onLifecycleEvent(

@@ -47,11 +47,17 @@ class CreateOrderViewModel @Inject constructor(
     }
 
     fun onClick() = viewModelScope.launch {
+        updateState {
+            copy(showProgress = true)
+        }
         val createOrderScreenState = state.value
         orderManager.createOrder(
             createOrderScreenState.parseFromCoordinates(),
             createOrderScreenState.parseToCoordinates()
         )
+        updateState {
+            copy(showProgress = false)
+        }
         navigator.navigateToDashboard()
     }
 

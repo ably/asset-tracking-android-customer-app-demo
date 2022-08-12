@@ -1,5 +1,6 @@
 package com.ably.tracking.demo.subscriber.di
 
+import android.content.Context
 import com.ably.tracking.demo.subscriber.BuildConfig
 import com.ably.tracking.demo.subscriber.api.ApiDeliveryServiceDataSource
 import com.ably.tracking.demo.subscriber.api.DeliveryServiceApi
@@ -10,11 +11,18 @@ import com.ably.tracking.demo.subscriber.api.buildRetrofit
 import com.ably.tracking.demo.subscriber.domain.AssetTracker
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimator
 import com.ably.tracking.demo.subscriber.domain.OrderManager
+import com.ably.tracking.demo.subscriber.secrets.AndroidBase64Encoder
+import com.ably.tracking.demo.subscriber.secrets.Base64Encoder
+import com.ably.tracking.demo.subscriber.secrets.InMemorySecretsManager
+import com.ably.tracking.demo.subscriber.secrets.SecretsManager
+import com.ably.tracking.demo.subscriber.secrets.SecretsStorage
+import com.ably.tracking.demo.subscriber.secrets.SharedPreferencesSecretsStorage
 import com.ably.tracking.ui.animation.CoreLocationAnimator
 import com.ably.tracking.ui.animation.LocationAnimator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
@@ -41,12 +49,12 @@ object DomainModule {
     @Provides
     fun provideOrderInteractor(
         deliveryServiceDataSource: DeliveryServiceDataSource,
-        assetTracker: AssetTracker
+        assetTracker: AssetTracker,
+        secretsManager: SecretsManager
     ): OrderManager = OrderManager(
         deliveryServiceDataSource,
         assetTracker,
-        BuildConfig.AUTHORIZATION_HEADER_BASE_64,
-        BuildConfig.AUTHORIZATION_USERNAME
+        secretsManager
     )
 
     @Singleton
@@ -67,4 +75,23 @@ object DomainModule {
     @Provides
     fun provideDeliveryServiceDataSource(deliveryServiceApi: DeliveryServiceApi): DeliveryServiceDataSource =
         ApiDeliveryServiceDataSource(deliveryServiceApi)
+
+    @Singleton
+    @Provides
+    fun provideSecretsManager(
+        deliveryServiceDataSource: DeliveryServiceDataSource,
+        secretsStorage: SecretsStorage,
+        base64Encoder: Base64Encoder
+    ): SecretsManager =
+        InMemorySecretsManager(deliveryServiceDataSource, secretsStorage, base64Encoder)
+
+    @Singleton
+    @Provides
+    fun provideSecretsStorage(@ApplicationContext context: Context): SecretsStorage =
+        SharedPreferencesSecretsStorage(context)
+
+    @Singleton
+    @Provides
+    fun provideBase64Encoder(): Base64Encoder =
+        AndroidBase64Encoder()
 }

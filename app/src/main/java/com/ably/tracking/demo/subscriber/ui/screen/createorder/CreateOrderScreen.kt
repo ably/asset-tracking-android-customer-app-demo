@@ -3,26 +3,20 @@ package com.ably.tracking.demo.subscriber.ui.screen.createorder
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
-import com.ably.tracking.demo.subscriber.ui.widget.StyledDecimalTextField
+import com.ably.tracking.demo.subscriber.ui.widget.StyledCircularProgressIndicator
+import com.ably.tracking.demo.subscriber.ui.widget.StyledTextButton
+import com.ably.tracking.demo.subscriber.ui.widget.StyledTextField
 
 @Composable
 fun CreateOrderScreen(
@@ -39,49 +33,46 @@ fun CreateOrderScreen(
 fun CreateOrderScreenContent(
     viewModel: CreateOrderViewModel
 ) = AATSubscriberDemoTheme {
+    val viewState: State<CreateOrderScreenState> = viewModel.state.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        val viewState: State<CreateOrderScreenState> = viewModel.state.collectAsState()
-        StyledDecimalTextField(
-            label = R.string.order_from_latitude_label,
-            value = viewState.value.fromLatitude,
-            onValueChange = viewModel::onFromLatitudeChanged
-        )
-        StyledDecimalTextField(
-            label = R.string.order_from_longitude_label,
-            value = viewState.value.fromLongitude,
-            onValueChange = viewModel::onFromLongitudeChanged
-        )
-        StyledDecimalTextField(
-            label = R.string.order_to_latitude_label,
-            value = viewState.value.toLatitude,
-            onValueChange = viewModel::onToLatitudeChanged
-        )
-        StyledDecimalTextField(
-            label = R.string.order_to_longitude_label,
-            value = viewState.value.toLongitude,
-            onValueChange = viewModel::onToLongitudeChanged
-        )
-        TextButton(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .height(48.dp),
-            enabled = viewState.value.isConfirmButtonEnabled,
-            colors = ButtonDefaults.textButtonColors(
-                backgroundColor = if (viewState.value.isConfirmButtonEnabled) Color.White else Color.Gray,
-                disabledContentColor = Color.DarkGray,
-                contentColor = Color.Black
-            ),
-            onClick = {
-                viewModel.onClick()
-            }
-        ) {
-            Text(text = stringResource(id = R.string.create_order))
+        if (viewState.value.showProgress) {
+            StyledCircularProgressIndicator()
+        } else {
+            OrderDataForm(viewModel, viewState)
         }
     }
+}
+
+@Composable
+fun OrderDataForm(viewModel: CreateOrderViewModel, viewState: State<CreateOrderScreenState>) {
+    StyledTextField(
+        label = R.string.order_from_latitude_label,
+        value = viewState.value.fromLatitude,
+        keyboardType = KeyboardType.Decimal
+    ) { viewModel.onFromLatitudeChanged(it) }
+    StyledTextField(
+        label = R.string.order_from_longitude_label,
+        value = viewState.value.fromLongitude,
+        keyboardType = KeyboardType.Decimal
+    ) { viewModel.onFromLongitudeChanged(it) }
+    StyledTextField(
+        label = R.string.order_to_latitude_label,
+        value = viewState.value.toLatitude,
+        keyboardType = KeyboardType.Decimal
+    ) { viewModel.onToLatitudeChanged(it) }
+    StyledTextField(
+        label = R.string.order_to_longitude_label,
+        value = viewState.value.toLongitude,
+        keyboardType = KeyboardType.Decimal
+    ) { viewModel.onToLongitudeChanged(it) }
+    StyledTextButton(
+        text = R.string.create_order,
+        isEnabled = viewState.value.isConfirmButtonEnabled,
+        onClick = viewModel::onClick
+    )
 }
