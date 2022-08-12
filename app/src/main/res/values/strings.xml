@@ -19,7 +19,7 @@
     <string name="create_order">Create order</string>
 
     <string name="trackable_subscription_failed_dialog_title">Subscribing to updates failed.</string>
-    <string name="trackable_subscription_failed_dialog_message">{Subscribing to updates failed, p}lease try again later.</string>
+    <string name="trackable_subscription_failed_dialog_message">Please try again later.</string>
 
     <string name="trackable_location_no_data_reported">No trackable location reported</string>
     <string name="trackable_location_latitude">Latitude:</string>
