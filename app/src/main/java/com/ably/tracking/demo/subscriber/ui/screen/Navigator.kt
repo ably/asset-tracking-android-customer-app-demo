@@ -7,11 +7,15 @@ class Navigator {
 
     lateinit var navController: NavController
 
+    fun navigateToCreateOrder() {
+        navController.navigate(Routes.CreateOrder.path)
+    }
+
     fun navigateToDashboard() {
         navController.navigate(Routes.Dashboard.path)
     }
 
-    fun navigateToCreateOrder() {
-        navController.navigate(Routes.CreateOrder.path)
+    fun navigateToOrderArrived() {
+
     }
 }

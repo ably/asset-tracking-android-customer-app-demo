@@ -4,13 +4,17 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ably.tracking.ConnectionException
+import com.ably.tracking.Location
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
 import com.ably.tracking.TrackableState
 import com.ably.tracking.demo.subscriber.common.FixedSizeMutableList
+import com.ably.tracking.demo.subscriber.common.FusedLocationSource
+import com.ably.tracking.demo.subscriber.common.distanceTo
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimator
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimatorPosition
 import com.ably.tracking.demo.subscriber.domain.OrderManager
+import com.ably.tracking.demo.subscriber.ui.screen.Navigator
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,9 +23,16 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class DashboardViewModel(
+    private val navigator: Navigator,
     private val orderManager: OrderManager,
-    private val assetTrackerAnimator: AssetTrackerAnimator
+    private val assetTrackerAnimator: AssetTrackerAnimator,
+    private val fusedLocationSource: FusedLocationSource
 ) : ViewModel() {
+
+    companion object {
+        private const val ROLLING_AVERAGE_INTERVAL_COUNT = 5
+        private const val ORDER_ARRIVED_DISTANCE_IN_METERS = 10
+    }
 
     val state: MutableStateFlow<DashboardScreenState> = MutableStateFlow(DashboardScreenState())
     val mapState: MutableStateFlow<DashboardScreenMapState> =
@@ -77,6 +88,8 @@ class DashboardViewModel(
         }
         val averageInterval = intervals.average()
 
+        checkIfTrackableIsHere(trackableLocation.location)
+
         updateState {
             copy(
                 trackableLocation = trackableLocation,
@@ -87,6 +100,14 @@ class DashboardViewModel(
 
         state.value.resolution?.let { resolution ->
             assetTrackerAnimator.update(trackableLocation, resolution.desiredInterval)
+        }
+    }
+
+    private fun checkIfTrackableIsHere(trackableLocation: Location) {
+        val lastRegisteredLocation = fusedLocationSource.lastRegisteredLocation
+        val distance = trackableLocation.distanceTo(lastRegisteredLocation)
+        if (distance != null && distance < ORDER_ARRIVED_DISTANCE_IN_METERS) {
+            navigator.navigateToOrderArrived()
         }
     }
 
@@ -142,9 +163,5 @@ class DashboardViewModel(
 
     fun onEnterBackground() = viewModelScope.launch {
         orderManager.setBackgroundResolution()
-    }
-
-    companion object {
-        private const val ROLLING_AVERAGE_INTERVAL_COUNT = 5
     }
 }

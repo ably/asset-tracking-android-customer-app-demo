@@ -28,7 +28,7 @@ import org.koin.dsl.module
 val appModule = module {
     viewModel { LoginViewModel(get(), get()) }
 
-    viewModel { DashboardViewModel(get(), get()) }
+    viewModel { DashboardViewModel(get(), get(), get(), get()) }
 
     viewModel { CreateOrderViewModel(get(), get()) }
 
@@ -50,7 +50,7 @@ val appModule = module {
 
     single { buildDeliveryServiceApi(get()) }
 
-    single< DeliveryServiceDataSource> { ApiDeliveryServiceDataSource(get()) }
+    single<DeliveryServiceDataSource> { ApiDeliveryServiceDataSource(get()) }
 
     single<SecretsManager> { InMemorySecretsManager(get(), get(), get()) }
 
