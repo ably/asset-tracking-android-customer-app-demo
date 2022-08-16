@@ -16,32 +16,33 @@ import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.ui.theme.AATSubscriberDemoTheme
 import com.ably.tracking.demo.subscriber.ui.widget.AATAppBar
 import com.ably.tracking.demo.subscriber.ui.widget.StyledTextButton
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 @Preview
-fun OrderArrivedScreen() = AATSubscriberDemoTheme {
+fun OrderArrivedScreen(viewModel: OrderArrivedViewModel = getViewModel()) = AATSubscriberDemoTheme {
     Scaffold(
         topBar = { AATAppBar() }
     ) {
-        CreateOrderScreenContent()
+        CreateOrderScreenContent(viewModel)
     }
 }
 
 @Composable
-fun CreateOrderScreenContent(
-) = AATSubscriberDemoTheme {
+fun CreateOrderScreenContent(viewModel: OrderArrivedViewModel) = AATSubscriberDemoTheme {
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
         Text(
             modifier = Modifier.padding(8.dp),
             text = stringResource(id = R.string.order_arrived_message)
         )
-        StyledTextButton(text = R.string.order_arrived_button_text, onClick = { }
+        StyledTextButton(
+            text = R.string.order_arrived_button_text,
+            onClick = viewModel::onCreateNewOrderClick
         )
     }
 }

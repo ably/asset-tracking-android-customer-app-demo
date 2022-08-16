@@ -20,6 +20,7 @@ import com.ably.tracking.demo.subscriber.ui.screen.Navigator
 import com.ably.tracking.demo.subscriber.ui.screen.createorder.CreateOrderViewModel
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.DashboardViewModel
 import com.ably.tracking.demo.subscriber.ui.screen.login.LoginViewModel
+import com.ably.tracking.demo.subscriber.ui.screen.orderarrived.OrderArrivedViewModel
 import com.ably.tracking.ui.animation.CoreLocationAnimator
 import com.ably.tracking.ui.animation.LocationAnimator
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -31,6 +32,8 @@ val appModule = module {
     viewModel { DashboardViewModel(get(), get(), get(), get()) }
 
     viewModel { CreateOrderViewModel(get(), get()) }
+
+    viewModel { OrderArrivedViewModel(get()) }
 
     single { Navigator() }
 
