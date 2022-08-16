@@ -102,6 +102,7 @@ private fun LocationUpdateBottomSheetData.toLabelValueMap(): Map<Int, Any?> {
         R.string.trackable_location_bearing to location?.bearing,
         R.string.trackable_location_altitude to location?.altitude,
         R.string.trackable_location_accuracy to location?.accuracy,
+        R.string.trackable_remaining_distance to remainingDistance,
         R.string.trackable_location_last_interval to
             lastLocationUpdateInterval?.toIntervalWithUnit(),
         R.string.trackable_location_average_interval to

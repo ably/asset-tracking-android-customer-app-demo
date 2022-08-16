@@ -27,7 +27,8 @@ class LocationUpdatePreview : PreviewParameterProvider<LocationUpdateBottomSheet
                 desiredInterval = 500
             ),
             lastLocationUpdateInterval = 100,
-            averageLocationUpdateInterval = 300
+            averageLocationUpdateInterval = 300,
+            remainingDistance = 150.0
         )
     )
 }

@@ -27,6 +27,7 @@
     <string name="trackable_location_bearing">Bearing:</string>
     <string name="trackable_location_altitude">Altitude:</string>
     <string name="trackable_location_accuracy">Accuracy:</string>
+    <string name="trackable_remaining_distance">Remaining distance:</string>
     <string name="trackable_location_speed">Speed:</string>
     <string name="trackable_location_time">Time:</string>
     <string name="trackable_location_skipped_locations">Skipped locations:</string>
@@ -42,4 +43,7 @@
     <string name="trackable_state_publishing">Publishing</string>
     <string name="trackable_state_offline">Offline</string>
     <string name="trackable_state_failed">Failed</string>
+
+    <string name="order_arrived_message">Your order has arrived</string>
+    <string name="order_arrived_button_text">Create a new order</string>
 </resources>

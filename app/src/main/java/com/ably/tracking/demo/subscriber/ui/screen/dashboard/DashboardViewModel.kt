@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ably.tracking.ConnectionException
-import com.ably.tracking.Location
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
 import com.ably.tracking.TrackableState
@@ -31,7 +30,7 @@ class DashboardViewModel(
 
     companion object {
         private const val ROLLING_AVERAGE_INTERVAL_COUNT = 5
-        private const val ORDER_ARRIVED_DISTANCE_IN_METERS = 10
+        private const val ORDER_ARRIVED_DISTANCE_IN_METERS = 50
     }
 
     val state: MutableStateFlow<DashboardScreenState> = MutableStateFlow(DashboardScreenState())
@@ -87,12 +86,15 @@ class DashboardViewModel(
             intervals.add(it)
         }
         val averageInterval = intervals.average()
+        val lastRegisteredLocation = fusedLocationSource.lastRegisteredLocation
+        val remainingDistance = trackableLocation.location.distanceTo(lastRegisteredLocation)
 
-        checkIfTrackableIsHere(trackableLocation.location)
+        checkIfOrderArrived(remainingDistance)
 
         updateState {
             copy(
                 trackableLocation = trackableLocation,
+                remainingDistance = remainingDistance,
                 lastLocationUpdateInterval = interval,
                 averageLocationUpdateInterval = averageInterval
             )
@@ -103,10 +105,9 @@ class DashboardViewModel(
         }
     }
 
-    private fun checkIfTrackableIsHere(trackableLocation: Location) {
-        val lastRegisteredLocation = fusedLocationSource.lastRegisteredLocation
-        val distance = trackableLocation.distanceTo(lastRegisteredLocation)
-        if (distance != null && distance < ORDER_ARRIVED_DISTANCE_IN_METERS) {
+    private suspend fun checkIfOrderArrived(remainingDistance: Double?) {
+        if (remainingDistance != null && remainingDistance < ORDER_ARRIVED_DISTANCE_IN_METERS) {
+            orderManager.stopObserving()
             navigator.navigateToOrderArrived()
         }
     }

@@ -16,6 +16,6 @@ class Navigator {
     }
 
     fun navigateToOrderArrived() {
-
+        navController.navigate(Routes.OrderArrived.path)
     }
 }
