@@ -6,6 +6,6 @@ import com.ably.tracking.demo.subscriber.ui.screen.Navigator
 class OrderArrivedViewModel(private val navigator: Navigator) : ViewModel() {
 
     fun onCreateNewOrderClick() {
-        navigator.navigateToCreateOrder()
+        navigator.navigateToRecreateOrder()
     }
 }
