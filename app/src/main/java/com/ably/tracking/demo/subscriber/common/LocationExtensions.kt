@@ -7,6 +7,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
+const val EARTH_RADIUS_IN_METERS = 6_371_000
+const val STRAIGHT_ANGLE_DEGREES = 180
+
 fun Location?.distanceTo(location: LatLng?): Double? {
     if (this == null || location == null) {
         return null
@@ -22,8 +25,7 @@ fun Location?.distanceTo(location: LatLng?): Double? {
         sin(longitudeDeltaInRadians / 2) * sin(longitudeDeltaInRadians / 2)
     val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-    val earthRadius = 6_371_000 // in metres
-    return earthRadius * c // in metres
+    return EARTH_RADIUS_IN_METERS * c // in metres
 }
 
-fun Double.toRadians() = this * Math.PI / 180
+fun Double.toRadians() = this * Math.PI / STRAIGHT_ANGLE_DEGREES
