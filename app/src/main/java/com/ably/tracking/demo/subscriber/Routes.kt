@@ -13,4 +13,8 @@ sealed interface Routes {
     object Dashboard : Routes {
         const val path = "dashboard/"
     }
+
+    object OrderArrived : Routes {
+        const val path = "order/arrived"
+    }
 }

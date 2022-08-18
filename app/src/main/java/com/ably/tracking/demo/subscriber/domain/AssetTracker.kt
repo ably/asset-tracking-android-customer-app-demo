@@ -65,4 +65,8 @@ class AssetTracker {
             subscriber.resolutionPreference(backgroundResolution)
         }
     }
+
+    suspend fun stopTracking() {
+        subscriber.stop()
+    }
 }

@@ -34,4 +34,8 @@ class OrderManager(
     suspend fun setBackgroundResolution() {
         assetTracker.setBackgroundResolution()
     }
+
+    suspend fun stopObserving() {
+        assetTracker.stopTracking()
+    }
 }

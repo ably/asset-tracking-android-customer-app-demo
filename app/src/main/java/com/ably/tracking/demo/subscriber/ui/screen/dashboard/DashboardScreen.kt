@@ -131,6 +131,7 @@ private fun State<DashboardScreenState>.toLocationUpdateBottomSheetData() =
     LocationUpdateBottomSheetData(
         locationUpdate = value.trackableLocation,
         resolution = value.resolution,
+        remainingDistance = value.remainingDistance,
         lastLocationUpdateInterval = value.lastLocationUpdateInterval,
         averageLocationUpdateInterval = value.averageLocationUpdateInterval
     )

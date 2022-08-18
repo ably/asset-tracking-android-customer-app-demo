@@ -8,9 +8,12 @@ import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
 import com.ably.tracking.TrackableState
 import com.ably.tracking.demo.subscriber.common.FixedSizeMutableList
+import com.ably.tracking.demo.subscriber.common.FusedLocationSource
+import com.ably.tracking.demo.subscriber.common.distanceTo
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimator
 import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimatorPosition
 import com.ably.tracking.demo.subscriber.domain.OrderManager
+import com.ably.tracking.demo.subscriber.ui.screen.Navigator
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,9 +22,16 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class DashboardViewModel(
+    private val navigator: Navigator,
     private val orderManager: OrderManager,
-    private val assetTrackerAnimator: AssetTrackerAnimator
+    private val assetTrackerAnimator: AssetTrackerAnimator,
+    private val fusedLocationSource: FusedLocationSource
 ) : ViewModel() {
+
+    companion object {
+        private const val ROLLING_AVERAGE_INTERVAL_COUNT = 5
+        private const val ORDER_ARRIVED_DISTANCE_IN_METERS = 50
+    }
 
     val state: MutableStateFlow<DashboardScreenState> = MutableStateFlow(DashboardScreenState())
     val mapState: MutableStateFlow<DashboardScreenMapState> =
@@ -76,10 +86,15 @@ class DashboardViewModel(
             intervals.add(it)
         }
         val averageInterval = intervals.average()
+        val lastRegisteredLocation = fusedLocationSource.lastRegisteredLocation
+        val remainingDistance = trackableLocation.location.distanceTo(lastRegisteredLocation)
+
+        checkIfOrderArrived(remainingDistance)
 
         updateState {
             copy(
                 trackableLocation = trackableLocation,
+                remainingDistance = remainingDistance,
                 lastLocationUpdateInterval = interval,
                 averageLocationUpdateInterval = averageInterval
             )
@@ -87,6 +102,13 @@ class DashboardViewModel(
 
         state.value.resolution?.let { resolution ->
             assetTrackerAnimator.update(trackableLocation, resolution.desiredInterval)
+        }
+    }
+
+    private suspend fun checkIfOrderArrived(remainingDistance: Double?) {
+        if (remainingDistance != null && remainingDistance < ORDER_ARRIVED_DISTANCE_IN_METERS) {
+            orderManager.stopObserving()
+            navigator.navigateToOrderArrived()
         }
     }
 
@@ -142,9 +164,5 @@ class DashboardViewModel(
 
     fun onEnterBackground() = viewModelScope.launch {
         orderManager.setBackgroundResolution()
-    }
-
-    companion object {
-        private const val ROLLING_AVERAGE_INTERVAL_COUNT = 5
     }
 }
