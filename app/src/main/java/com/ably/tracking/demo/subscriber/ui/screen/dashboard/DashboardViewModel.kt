@@ -7,11 +7,11 @@ import com.ably.tracking.ConnectionException
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
 import com.ably.tracking.TrackableState
+import com.ably.tracking.demo.subscriber.ably.AssetTrackerAnimator
+import com.ably.tracking.demo.subscriber.ably.AssetTrackerAnimatorPosition
 import com.ably.tracking.demo.subscriber.common.FixedSizeMutableList
 import com.ably.tracking.demo.subscriber.common.FusedLocationSource
 import com.ably.tracking.demo.subscriber.common.distanceTo
-import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimator
-import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimatorPosition
 import com.ably.tracking.demo.subscriber.domain.OrderManager
 import com.ably.tracking.demo.subscriber.ui.screen.Navigator
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState

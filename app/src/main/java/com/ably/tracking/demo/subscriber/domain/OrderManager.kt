@@ -1,5 +1,6 @@
 package com.ably.tracking.demo.subscriber.domain
 
+import com.ably.tracking.demo.subscriber.ably.AssetTracker
 import com.ably.tracking.demo.subscriber.api.DeliveryServiceDataSource
 import com.ably.tracking.demo.subscriber.secrets.SecretsManager
 
