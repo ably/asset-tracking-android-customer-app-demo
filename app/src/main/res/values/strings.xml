@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">AAT Subscriber Demo</string>
+    <string name="app_name">AAT Customer</string>
     <string name="image_content_description_header_logo_with_title">Ably logo with AAT title</string>
-    <string name="image_content_description_icon_switch_map_to_trackable">Switch map mode to follow trackable</string>
-    <string name="image_content_description_icon_switch_map_to_location">Switch map mode to follow both user location and trackable</string>
+    <string name="image_content_description_icon_switch_map_to_order">Switch map mode to follow order</string>
+    <string name="image_content_description_icon_switch_map_to_location">Switch map mode to follow both user location and order</string>
     <string name="loading">AAT is loading…</string>
     <string name="ok">OK</string>
 
@@ -18,31 +18,31 @@
     <string name="order_to_longitude_label">Destination longitude</string>
     <string name="create_order">Create order</string>
 
-    <string name="trackable_subscription_failed_dialog_title">Subscribing to updates failed.</string>
-    <string name="trackable_subscription_failed_dialog_message">Please try again later.</string>
+    <string name="order_subscription_failed_dialog_title">Subscribing to updates failed.</string>
+    <string name="order_subscription_failed_dialog_message">Please try again later.</string>
 
-    <string name="trackable_location_no_data_reported">No trackable location reported</string>
-    <string name="trackable_location_latitude">Latitude:</string>
-    <string name="trackable_location_longitude">Longitude:</string>
-    <string name="trackable_location_bearing">Bearing:</string>
-    <string name="trackable_location_altitude">Altitude:</string>
-    <string name="trackable_location_accuracy">Accuracy:</string>
-    <string name="trackable_remaining_distance">Remaining distance:</string>
-    <string name="trackable_location_speed">Speed:</string>
-    <string name="trackable_location_time">Time:</string>
-    <string name="trackable_location_skipped_locations">Skipped locations:</string>
-    <string name="trackable_location_last_interval">Last update interval:</string>
-    <string name="trackable_location_average_interval">Average update interval:</string>
-    <string name="trackable_location_desired_interval">Desired update interval:</string>
+    <string name="order_location_no_data_reported">No order location reported</string>
+    <string name="order_location_latitude">Latitude:</string>
+    <string name="order_location_longitude">Longitude:</string>
+    <string name="order_location_bearing">Bearing:</string>
+    <string name="order_location_altitude">Altitude:</string>
+    <string name="order_location_accuracy">Accuracy:</string>
+    <string name="order_remaining_distance">Remaining distance:</string>
+    <string name="order_location_speed">Speed:</string>
+    <string name="order_location_time">Time:</string>
+    <string name="order_location_skipped_locations">Skipped locations:</string>
+    <string name="order_location_last_interval">Last update interval:</string>
+    <string name="order_location_average_interval">Average update interval:</string>
+    <string name="order_location_desired_interval">Desired update interval:</string>
 
-    <string name="trackable_id_label">Trackable id: %s</string>
-    <string name="trackable_state_label_normal">Trackable state:</string>
-    <string name="trackable_state_label_error">Error:</string>
-    <string name="trackable_state_no_data_reported">No trackable state reported</string>
-    <string name="trackable_state_online">Online</string>
-    <string name="trackable_state_publishing">Publishing</string>
-    <string name="trackable_state_offline">Offline</string>
-    <string name="trackable_state_failed">Failed</string>
+    <string name="order_id_label">Order id: %s</string>
+    <string name="order_state_label_normal">Order state:</string>
+    <string name="order_state_label_error">Error:</string>
+    <string name="order_state_no_data_reported">No order state reported</string>
+    <string name="order_state_online">Online</string>
+    <string name="order_state_publishing">Publishing</string>
+    <string name="order_state_offline">Offline</string>
+    <string name="order_state_failed">Failed</string>
 
     <string name="order_arrived_message">Your order has arrived</string>
     <string name="order_arrived_button_text">Create a new order</string>

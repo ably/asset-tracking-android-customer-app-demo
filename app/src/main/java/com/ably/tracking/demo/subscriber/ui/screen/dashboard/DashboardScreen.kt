@@ -91,8 +91,8 @@ fun DashboardScreen(
 
             if (state.value.showSubscriptionFailedDialog) {
                 SingleButtonAlertDialog(
-                    title = R.string.trackable_subscription_failed_dialog_title,
-                    text = R.string.trackable_subscription_failed_dialog_message,
+                    title = R.string.order_subscription_failed_dialog_title,
+                    text = R.string.order_subscription_failed_dialog_message,
                     buttonText = R.string.ok
                 ) {
                     dashboardViewModel.onSubscriptionFailedDialogClose()
@@ -176,7 +176,7 @@ fun TrackableIdRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
-        text = stringResource(R.string.trackable_id_label, state.trackableId)
+        text = stringResource(R.string.order_id_label, state.trackableId)
     )
 }
 
@@ -192,7 +192,7 @@ fun TrackableStateRow(
     ) {
         Text(
             text = stringResource(
-                id = R.string.trackable_state_label_normal
+                id = R.string.order_state_label_normal
             )
         )
 
@@ -203,7 +203,7 @@ fun TrackableStateRow(
         when (state.trackableState) {
             null -> Text(
                 text = stringResource(
-                    id = R.string.trackable_state_no_data_reported
+                    id = R.string.order_state_no_data_reported
                 )
             )
             else -> Text(
@@ -227,7 +227,7 @@ fun TrackableStateErrorRow(
     ) {
         Text(
             text = stringResource(
-                id = R.string.trackable_state_label_error
+                id = R.string.order_state_label_error
             )
         )
         Spacer(
@@ -257,7 +257,7 @@ fun ChangeMapModeFloatingActionButton(
             Icon(
                 imageVector = Icons.Default.Email,
                 contentDescription = stringResource(
-                    id = R.string.image_content_description_icon_switch_map_to_trackable
+                    id = R.string.image_content_description_icon_switch_map_to_order
                 )
             )
         } else {
