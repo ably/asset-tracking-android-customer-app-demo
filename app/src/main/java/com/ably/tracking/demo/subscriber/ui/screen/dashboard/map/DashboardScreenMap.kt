@@ -51,7 +51,7 @@ fun DashboardScreenMap(
             when {
                 /**
                  * This handles the initial state of map, when it's not zoomed to anything,
-                 * and not already zooming, it should zoom to the trackable location,
+                 * and not already zooming, it should zoom to the order location,
                  * before we start animating between the provided camera positions
                  */
                 mapState.isInInitialState && !cameraPositionState.isMoving -> {
@@ -60,14 +60,14 @@ fun DashboardScreenMap(
                         mapState.locationLatLng()!!,
                         longAnimationDuration
                     )
-                    viewModel.onZoomedToTrackablePosition()
+                    viewModel.onZoomedToOrderPosition()
                 }
                 /**
-                 * If user enables tracking both location and trackable at the same time
-                 * And locations of user and trackable are available, map should animate to bounds
-                 * showing both user and trackable at the same time
+                 * If user enables tracking both location and order at the same time
+                 * And locations of user and order are available, map should animate to bounds
+                 * showing both user and order at the same time
                  */
-                mapState.canFollowUserAndTrackable && locationSource.lastRegisteredLocation != null -> {
+                mapState.canFollowUserAndOrder && locationSource.lastRegisteredLocation != null -> {
                     animateMapToBounds(
                         cameraPositionState,
                         LatLngBounds.Builder()
@@ -76,10 +76,10 @@ fun DashboardScreenMap(
                             .build(),
                         shortAnimationDuration
                     )
-                    viewModel.onZoomedToTrackablePosition()
+                    viewModel.onZoomedToOrderPosition()
                 }
                 /**
-                 * If it's already zoomed to the trackable, it should use the camera positions
+                 * If it's already zoomed to the order, it should use the camera positions
                  * calculated by sdk-ui to perform a smooth animation between locations
                  */
                 mapState.cameraPosition != null && !cameraPositionState.isMoving -> animateMapToLocation(
