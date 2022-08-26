@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.domain
+package com.ably.tracking.demo.subscriber.ably
 
 import com.ably.tracking.ui.animation.Position
 

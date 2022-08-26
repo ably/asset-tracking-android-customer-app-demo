@@ -2,16 +2,16 @@ package com.ably.tracking.demo.subscriber.ui.screen.dashboard
 
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
-import com.ably.tracking.TrackableState
+import com.ably.tracking.demo.subscriber.domain.OrderState
 
 data class DashboardScreenState(
-    val trackableId: String = "",
-    val trackableState: TrackableState? = null,
+    val orderId: String = "",
+    val orderState: OrderState? = null,
     val lastLocationUpdateInterval: Long? = null,
     val averageLocationUpdateInterval: Long? = null,
     val resolution: Resolution? = null,
     val remainingDistance: Double? = null,
-    val trackableLocation: LocationUpdate? = null,
+    val orderLocation: LocationUpdate? = null,
     val animatedLocation: LocationUpdate? = null,
     val showSubscriptionFailedDialog: Boolean = false
 )

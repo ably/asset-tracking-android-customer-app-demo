@@ -6,13 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.ably.tracking.ConnectionException
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
-import com.ably.tracking.TrackableState
+import com.ably.tracking.demo.subscriber.ably.AssetTrackerAnimator
+import com.ably.tracking.demo.subscriber.ably.AssetTrackerAnimatorPosition
 import com.ably.tracking.demo.subscriber.common.FixedSizeMutableList
 import com.ably.tracking.demo.subscriber.common.FusedLocationSource
 import com.ably.tracking.demo.subscriber.common.distanceTo
-import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimator
-import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimatorPosition
 import com.ably.tracking.demo.subscriber.domain.OrderManager
+import com.ably.tracking.demo.subscriber.domain.OrderState
 import com.ably.tracking.demo.subscriber.ui.screen.Navigator
 import com.ably.tracking.demo.subscriber.ui.screen.dashboard.map.DashboardScreenMapState
 import kotlinx.coroutines.CoroutineScope
@@ -56,44 +56,44 @@ class DashboardViewModel(
 
         updateState {
             copy(
-                trackableId = orderData.orderId
+                orderId = orderData.orderId
             )
         }
         orderData.orderState
-            .onEach(::onTrackableStateChanged)
+            .onEach(::onOrderStateChanged)
             .launchIn(this)
         orderData.orderLocation
-            .onEach(::onTrackableLocationChanged)
+            .onEach(::onOrderLocationChanged)
             .launchIn(this)
         orderData.resolution
             .onEach(::onResolutionChanged)
             .launchIn(this)
         assetTrackerAnimator.observeAnimatedTrackableLocation()
-            .onEach(::onAnimatedTrackablePositionChanged)
+            .onEach(::onAnimatedOrderPositionChanged)
             .launchIn(this)
     }
 
-    private suspend fun onTrackableStateChanged(trackableState: TrackableState) {
+    private suspend fun onOrderStateChanged(orderState: OrderState) {
         updateState {
-            copy(trackableState = trackableState)
+            copy(orderState = orderState)
         }
     }
 
-    private suspend fun onTrackableLocationChanged(trackableLocation: LocationUpdate) {
-        val lastLocationUpdateTime = state.value.trackableLocation?.location?.time
-        val interval = lastLocationUpdateTime?.let { trackableLocation.location.time - it }
+    private suspend fun onOrderLocationChanged(orderLocation: LocationUpdate) {
+        val lastLocationUpdateTime = state.value.orderLocation?.location?.time
+        val interval = lastLocationUpdateTime?.let { orderLocation.location.time - it }
         interval?.let {
             intervals.add(it)
         }
         val averageInterval = intervals.average()
         val lastRegisteredLocation = fusedLocationSource.lastRegisteredLocation
-        val remainingDistance = trackableLocation.location.distanceTo(lastRegisteredLocation)
+        val remainingDistance = orderLocation.location.distanceTo(lastRegisteredLocation)
 
         checkIfOrderArrived(remainingDistance)
 
         updateState {
             copy(
-                trackableLocation = trackableLocation,
+                orderLocation = orderLocation,
                 remainingDistance = remainingDistance,
                 lastLocationUpdateInterval = interval,
                 averageLocationUpdateInterval = averageInterval
@@ -101,7 +101,7 @@ class DashboardViewModel(
         }
 
         state.value.resolution?.let { resolution ->
-            assetTrackerAnimator.update(trackableLocation, resolution.desiredInterval)
+            assetTrackerAnimator.update(orderLocation, resolution.desiredInterval)
         }
     }
 
@@ -116,7 +116,7 @@ class DashboardViewModel(
         updateState {
             copy(resolution = resolution)
         }
-        state.value.trackableLocation?.let { location ->
+        state.value.orderLocation?.let { location ->
             assetTrackerAnimator.update(location, resolution.desiredInterval)
         }
     }
@@ -131,7 +131,7 @@ class DashboardViewModel(
         state.emit(state.value.update())
     }
 
-    private suspend fun onAnimatedTrackablePositionChanged(assetTrackerAnimatorPosition: AssetTrackerAnimatorPosition) {
+    private suspend fun onAnimatedOrderPositionChanged(assetTrackerAnimatorPosition: AssetTrackerAnimatorPosition) {
         mapState.emit(
             mapState.value.copy(
                 location = assetTrackerAnimatorPosition.location,
@@ -140,10 +140,10 @@ class DashboardViewModel(
         )
     }
 
-    suspend fun onZoomedToTrackablePosition() {
+    suspend fun onZoomedToOrderPosition() {
         mapState.emit(
             mapState.value.copy(
-                isZoomedInToTrackable = true
+                isZoomedInToOrder = true
             )
         )
     }
@@ -152,7 +152,7 @@ class DashboardViewModel(
         mapState.value.let { currentMapState ->
             mapState.emit(
                 currentMapState.copy(
-                    shouldCameraFollowUserAndTrackable = !currentMapState.shouldCameraFollowUserAndTrackable
+                    shouldCameraFollowUserAndOrder = !currentMapState.shouldCameraFollowUserAndOrder
                 )
             )
         }

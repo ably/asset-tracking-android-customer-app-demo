@@ -34,7 +34,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
-import com.ably.tracking.TrackableState
 import com.ably.tracking.demo.subscriber.R
 import com.ably.tracking.demo.subscriber.common.FusedLocationSource
 import com.ably.tracking.demo.subscriber.common.doOnLifecycleEvent
@@ -91,8 +90,8 @@ fun DashboardScreen(
 
             if (state.value.showSubscriptionFailedDialog) {
                 SingleButtonAlertDialog(
-                    title = R.string.trackable_subscription_failed_dialog_title,
-                    text = R.string.trackable_subscription_failed_dialog_message,
+                    title = R.string.order_subscription_failed_dialog_title,
+                    text = R.string.order_subscription_failed_dialog_message,
                     buttonText = R.string.ok
                 ) {
                     dashboardViewModel.onSubscriptionFailedDialogClose()
@@ -129,7 +128,7 @@ private fun onLifecycleEvent(
 
 private fun State<DashboardScreenState>.toLocationUpdateBottomSheetData() =
     LocationUpdateBottomSheetData(
-        locationUpdate = value.trackableLocation,
+        locationUpdate = value.orderLocation,
         resolution = value.resolution,
         remainingDistance = value.remainingDistance,
         lastLocationUpdateInterval = value.lastLocationUpdateInterval,
@@ -149,14 +148,12 @@ fun DashboardScreenContent(
     ) {
         val viewState = viewModel.state.collectAsState().value
 
-        TrackableIdRow(state = viewState)
+        OrderIdRow(state = viewState)
 
-        TrackableStateRow(state = viewState)
+        OrderStateRow(state = viewState)
 
-        when (viewState.trackableState) {
-            is TrackableState.Offline -> TrackableStateErrorRow(state = viewState)
-            is TrackableState.Failed -> TrackableStateErrorRow(state = viewState)
-            else -> Unit
+        if (viewState.orderState?.isWorking() == false) {
+            OrderStateErrorRow(state = viewState)
         }
 
         DashboardScreenMap(
@@ -169,20 +166,20 @@ fun DashboardScreenContent(
 
 @Preview
 @Composable
-fun TrackableIdRow(
+fun OrderIdRow(
     @PreviewParameter(DashboardScreenStatePreview::class) state: DashboardScreenState
 ) = AATSubscriberDemoTheme {
     Text(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
-        text = stringResource(R.string.trackable_id_label, state.trackableId)
+        text = stringResource(R.string.order_id_label, state.orderId)
     )
 }
 
 @Preview
 @Composable
-fun TrackableStateRow(
+fun OrderStateRow(
     @PreviewParameter(DashboardScreenStatePreview::class) state: DashboardScreenState
 ) = AATSubscriberDemoTheme {
     Row(
@@ -192,7 +189,7 @@ fun TrackableStateRow(
     ) {
         Text(
             text = stringResource(
-                id = R.string.trackable_state_label_normal
+                id = R.string.order_state_label_normal
             )
         )
 
@@ -200,15 +197,15 @@ fun TrackableStateRow(
             modifier = Modifier.width(8.dp)
         )
 
-        when (state.trackableState) {
+        when (state.orderState) {
             null -> Text(
                 text = stringResource(
-                    id = R.string.trackable_state_no_data_reported
+                    id = R.string.order_state_no_data_reported
                 )
             )
             else -> Text(
                 text = stringResource(
-                    id = state.trackableState.toStringRes()
+                    id = state.orderState.toStringRes()
                 )
             )
         }
@@ -217,7 +214,7 @@ fun TrackableStateRow(
 
 @Preview
 @Composable
-fun TrackableStateErrorRow(
+fun OrderStateErrorRow(
     @PreviewParameter(DashboardScreenStatePreview::class) state: DashboardScreenState
 ) = AATSubscriberDemoTheme {
     Row(
@@ -227,18 +224,14 @@ fun TrackableStateErrorRow(
     ) {
         Text(
             text = stringResource(
-                id = R.string.trackable_state_label_error
+                id = R.string.order_state_label_error
             )
         )
         Spacer(
             modifier = Modifier.width(8.dp)
         )
         Text(
-            text = when (state.trackableState) {
-                is TrackableState.Failed -> state.trackableState.errorInformation.message
-                is TrackableState.Offline -> state.trackableState.errorInformation?.message.orEmpty()
-                else -> ""
-            }
+            text = state.orderState?.errorMessage.orEmpty()
         )
     }
 }
@@ -253,11 +246,11 @@ fun ChangeMapModeFloatingActionButton(
         backgroundColor = MaterialTheme.colors.secondary,
         contentColor = Color.White
     ) {
-        if (mapState.shouldCameraFollowUserAndTrackable) {
+        if (mapState.shouldCameraFollowUserAndOrder) {
             Icon(
                 imageVector = Icons.Default.Email,
                 contentDescription = stringResource(
-                    id = R.string.image_content_description_icon_switch_map_to_trackable
+                    id = R.string.image_content_description_icon_switch_map_to_order
                 )
             )
         } else {

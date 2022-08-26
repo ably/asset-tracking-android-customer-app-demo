@@ -4,15 +4,15 @@ import com.ably.tracking.ui.animation.Position
 import com.google.android.gms.maps.model.LatLng
 
 data class DashboardScreenMapState(
-    val isZoomedInToTrackable: Boolean = false,
-    val shouldCameraFollowUserAndTrackable: Boolean = false,
+    val isZoomedInToOrder: Boolean = false,
+    val shouldCameraFollowUserAndOrder: Boolean = false,
     val location: Position? = null,
     val cameraPosition: Position? = null
 ) {
 
-    val isInInitialState = !isZoomedInToTrackable && location != null && cameraPosition != null
+    val isInInitialState = !isZoomedInToOrder && location != null && cameraPosition != null
 
-    val canFollowUserAndTrackable = shouldCameraFollowUserAndTrackable && location != null
+    val canFollowUserAndOrder = shouldCameraFollowUserAndOrder && location != null
 
     fun locationLatLng(): LatLng? = location?.let {
         LatLng(it.latitude, it.longitude)

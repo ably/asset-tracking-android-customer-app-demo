@@ -59,7 +59,7 @@ fun LocationUpdateBottomSheetContentPlaceholder() = AATSubscriberDemoTheme {
     ) {
         Text(
             text = stringResource(
-                id = R.string.trackable_location_no_data_reported
+                id = R.string.order_location_no_data_reported
             )
         )
         Spacer(
@@ -95,21 +95,21 @@ fun LocationUpdateBottomSheetContent(
 private fun LocationUpdateBottomSheetData.toLabelValueMap(): Map<Int, Any?> {
     val location = locationUpdate?.location
     return mapOf(
-        R.string.trackable_location_time to location?.time?.formatToDate(),
-        R.string.trackable_location_latitude to location?.latitude,
-        R.string.trackable_location_longitude to location?.longitude,
-        R.string.trackable_location_speed to location?.speed,
-        R.string.trackable_location_bearing to location?.bearing,
-        R.string.trackable_location_altitude to location?.altitude,
-        R.string.trackable_location_accuracy to location?.accuracy,
-        R.string.trackable_remaining_distance to remainingDistance,
-        R.string.trackable_location_last_interval to
+        R.string.order_location_time to location?.time?.formatToDate(),
+        R.string.order_location_latitude to location?.latitude,
+        R.string.order_location_longitude to location?.longitude,
+        R.string.order_location_speed to location?.speed,
+        R.string.order_location_bearing to location?.bearing,
+        R.string.order_location_altitude to location?.altitude,
+        R.string.order_location_accuracy to location?.accuracy,
+        R.string.order_remaining_distance to remainingDistance,
+        R.string.order_location_last_interval to
             lastLocationUpdateInterval?.toIntervalWithUnit(),
-        R.string.trackable_location_average_interval to
+        R.string.order_location_average_interval to
             averageLocationUpdateInterval?.toIntervalWithUnit(),
-        R.string.trackable_location_desired_interval to
+        R.string.order_location_desired_interval to
             resolution?.desiredInterval?.toIntervalWithUnit(),
-        R.string.trackable_location_skipped_locations to
+        R.string.order_location_skipped_locations to
             locationUpdate?.skippedLocations?.size,
     )
 }

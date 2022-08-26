@@ -1,14 +1,14 @@
 package com.ably.tracking.demo.subscriber.di
 
 import com.ably.tracking.demo.subscriber.BuildConfig
+import com.ably.tracking.demo.subscriber.ably.AssetTracker
+import com.ably.tracking.demo.subscriber.ably.AssetTrackerAnimator
 import com.ably.tracking.demo.subscriber.api.ApiDeliveryServiceDataSource
 import com.ably.tracking.demo.subscriber.api.DeliveryServiceDataSource
 import com.ably.tracking.demo.subscriber.api.buildDeliveryServiceApi
 import com.ably.tracking.demo.subscriber.api.buildOkHttpClient
 import com.ably.tracking.demo.subscriber.api.buildRetrofit
 import com.ably.tracking.demo.subscriber.common.FusedLocationSource
-import com.ably.tracking.demo.subscriber.domain.AssetTracker
-import com.ably.tracking.demo.subscriber.domain.AssetTrackerAnimator
 import com.ably.tracking.demo.subscriber.domain.OrderManager
 import com.ably.tracking.demo.subscriber.secrets.AndroidBase64Encoder
 import com.ably.tracking.demo.subscriber.secrets.Base64Encoder
