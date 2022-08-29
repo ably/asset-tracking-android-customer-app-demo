@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.common
+package com.ably.tracking.demo.subscriber.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect

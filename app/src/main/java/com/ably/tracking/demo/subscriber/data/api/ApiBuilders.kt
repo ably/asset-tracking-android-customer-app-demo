@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.api
+package com.ably.tracking.demo.subscriber.data.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

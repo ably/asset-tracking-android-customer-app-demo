@@ -1,7 +1,5 @@
 package com.ably.tracking.demo.subscriber.presentation.screen.createorder
 
-import com.ably.tracking.demo.subscriber.common.canParseToDouble
-
 data class CreateOrderScreenState(
     val orderId: String = "",
     val fromLatitude: String = "51.1065859",
@@ -15,4 +13,8 @@ data class CreateOrderScreenState(
             fromLongitude.canParseToDouble() &&
             toLatitude.canParseToDouble() &&
             toLongitude.canParseToDouble()
+
+    private fun String.canParseToDouble() =
+        toDoubleOrNull() != null
+
 }

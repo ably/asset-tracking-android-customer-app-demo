@@ -1,5 +1,6 @@
 package com.ably.tracking.demo.subscriber.common
 
+import com.ably.tracking.demo.subscriber.presentation.screen.dashboard.FixedSizeMutableList
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.runTest
 import org.junit.Test

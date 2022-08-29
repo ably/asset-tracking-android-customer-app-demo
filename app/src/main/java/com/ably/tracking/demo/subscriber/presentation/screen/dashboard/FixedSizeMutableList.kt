@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.common
+package com.ably.tracking.demo.subscriber.presentation.screen.dashboard
 
 class FixedSizeMutableList(private val maxCapacity: Int) {
 

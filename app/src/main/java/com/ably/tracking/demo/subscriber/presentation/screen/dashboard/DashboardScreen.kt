@@ -3,6 +3,7 @@
 package com.ably.tracking.demo.subscriber.presentation.screen.dashboard
 
 import android.Manifest
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,9 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.ably.tracking.demo.subscriber.R
-import com.ably.tracking.demo.subscriber.common.FusedLocationSource
-import com.ably.tracking.demo.subscriber.common.doOnLifecycleEvent
-import com.ably.tracking.demo.subscriber.common.toStringRes
+import com.ably.tracking.demo.subscriber.data.FusedLocationSource
+import com.ably.tracking.demo.subscriber.domain.OrderState
+import com.ably.tracking.demo.subscriber.presentation.doOnLifecycleEvent
 import com.ably.tracking.demo.subscriber.presentation.screen.dashboard.bottomsheet.LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT
 import com.ably.tracking.demo.subscriber.presentation.screen.dashboard.bottomsheet.LocationUpdateBottomSheet
 import com.ably.tracking.demo.subscriber.presentation.screen.dashboard.bottomsheet.LocationUpdateBottomSheetData
@@ -210,6 +211,14 @@ fun OrderStateRow(
             )
         }
     }
+}
+
+@StringRes
+private fun OrderState.toStringRes(): Int = when (this.state) {
+    OrderState.State.Online -> R.string.order_state_online
+    OrderState.State.Publishing -> R.string.order_state_publishing
+    OrderState.State.Failed -> R.string.order_state_failed
+    OrderState.State.Offline -> R.string.order_state_offline
 }
 
 @Preview

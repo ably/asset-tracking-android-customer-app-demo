@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import com.ably.tracking.demo.subscriber.R
-import com.ably.tracking.demo.subscriber.common.doOnCreateLifecycleEvent
+import com.ably.tracking.demo.subscriber.presentation.doOnCreateLifecycleEvent
 import com.ably.tracking.demo.subscriber.presentation.theme.AATSubscriberDemoTheme
 import com.ably.tracking.demo.subscriber.presentation.widget.AATAppBar
 import com.ably.tracking.demo.subscriber.presentation.widget.SingleButtonAlertDialog

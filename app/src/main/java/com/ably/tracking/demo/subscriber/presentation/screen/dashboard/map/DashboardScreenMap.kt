@@ -6,7 +6,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.ably.tracking.demo.subscriber.common.FusedLocationSource
+import com.ably.tracking.demo.subscriber.data.FusedLocationSource
 import com.ably.tracking.demo.subscriber.presentation.screen.dashboard.DashboardViewModel
 import com.ably.tracking.demo.subscriber.presentation.theme.AATSubscriberDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi

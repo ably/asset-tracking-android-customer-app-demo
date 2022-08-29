@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.api
+package com.ably.tracking.demo.subscriber.data.api
 
 import retrofit2.http.Body
 import retrofit2.http.GET
