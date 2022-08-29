@@ -17,7 +17,7 @@
         android:theme="@style/Theme.AATSubscriberDemo"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AATSubscriberDemo">
             <intent-filter>
