@@ -2,7 +2,7 @@ package com.ably.tracking.demo.subscriber.presentation.screen.dashboard
 
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
-import com.ably.tracking.demo.subscriber.domain.OrderState
+import com.ably.tracking.demo.subscriber.domain.orders.OrderState
 
 data class DashboardScreenState(
     val orderId: String = "",

@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.ably.tracking.demo.subscriber.R
-import com.ably.tracking.demo.subscriber.data.FusedLocationSource
-import com.ably.tracking.demo.subscriber.domain.OrderState
+import com.ably.tracking.demo.subscriber.domain.orders.OrderState
+import com.ably.tracking.demo.subscriber.presentation.FusedLocationSource
 import com.ably.tracking.demo.subscriber.presentation.doOnLifecycleEvent
 import com.ably.tracking.demo.subscriber.presentation.screen.dashboard.bottomsheet.LOCATION_UPDATE_BOTTOM_SHEET_PEEK_HEIGHT
 import com.ably.tracking.demo.subscriber.presentation.screen.dashboard.bottomsheet.LocationUpdateBottomSheet

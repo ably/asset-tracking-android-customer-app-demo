@@ -1,7 +1,8 @@
 package com.ably.tracking.demo.subscriber.data.api
 
-import com.ably.tracking.demo.subscriber.domain.GeoCoordinates
-import com.ably.tracking.demo.subscriber.domain.Order
+import com.ably.tracking.demo.subscriber.domain.DeliveryServiceDataSource
+import com.ably.tracking.demo.subscriber.domain.orders.GeoCoordinates
+import com.ably.tracking.demo.subscriber.domain.orders.Order
 
 class ApiDeliveryServiceDataSource(private val deliveryServiceApi: DeliveryServiceApi) :
     DeliveryServiceDataSource {

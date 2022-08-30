@@ -16,5 +16,4 @@ data class CreateOrderScreenState(
 
     private fun String.canParseToDouble() =
         toDoubleOrNull() != null
-
 }

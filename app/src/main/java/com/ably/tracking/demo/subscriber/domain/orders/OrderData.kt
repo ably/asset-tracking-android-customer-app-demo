@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.domain
+package com.ably.tracking.demo.subscriber.domain.orders
 
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution

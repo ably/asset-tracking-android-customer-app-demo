@@ -1,5 +1,7 @@
 package com.ably.tracking.demo.subscriber.secrets
 
+import com.ably.tracking.demo.subscriber.domain.secrets.SecretsStorage
+
 class FakeSecretsStorage : SecretsStorage {
 
     var username: String? = null

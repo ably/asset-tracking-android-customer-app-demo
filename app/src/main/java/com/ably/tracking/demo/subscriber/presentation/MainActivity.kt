@@ -7,7 +7,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ably.tracking.demo.subscriber.data.FusedLocationSource
 import com.ably.tracking.demo.subscriber.presentation.navigation.Navigator
 import com.ably.tracking.demo.subscriber.presentation.navigation.Routes
 import com.ably.tracking.demo.subscriber.presentation.screen.createorder.CreateOrderScreen

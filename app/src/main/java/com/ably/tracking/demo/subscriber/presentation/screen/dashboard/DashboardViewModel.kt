@@ -7,11 +7,11 @@ import com.ably.tracking.ConnectionException
 import com.ably.tracking.LocationUpdate
 import com.ably.tracking.Resolution
 import com.ably.tracking.demo.subscriber.common.distanceTo
-import com.ably.tracking.demo.subscriber.data.FusedLocationSource
 import com.ably.tracking.demo.subscriber.data.ably.AssetTrackerAnimator
 import com.ably.tracking.demo.subscriber.data.ably.AssetTrackerAnimatorPosition
-import com.ably.tracking.demo.subscriber.domain.OrderManager
-import com.ably.tracking.demo.subscriber.domain.OrderState
+import com.ably.tracking.demo.subscriber.domain.orders.OrderManager
+import com.ably.tracking.demo.subscriber.domain.orders.OrderState
+import com.ably.tracking.demo.subscriber.presentation.FusedLocationSource
 import com.ably.tracking.demo.subscriber.presentation.navigation.Navigator
 import com.ably.tracking.demo.subscriber.presentation.screen.dashboard.map.DashboardScreenMapState
 import kotlinx.coroutines.CoroutineScope

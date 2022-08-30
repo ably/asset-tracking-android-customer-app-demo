@@ -1,7 +1,7 @@
-package com.ably.tracking.demo.subscriber.data.api
+package com.ably.tracking.demo.subscriber.domain
 
-import com.ably.tracking.demo.subscriber.domain.GeoCoordinates
-import com.ably.tracking.demo.subscriber.domain.Order
+import com.ably.tracking.demo.subscriber.domain.orders.GeoCoordinates
+import com.ably.tracking.demo.subscriber.domain.orders.Order
 
 interface DeliveryServiceDataSource {
     suspend fun getMapboxToken(authBase64: String): String

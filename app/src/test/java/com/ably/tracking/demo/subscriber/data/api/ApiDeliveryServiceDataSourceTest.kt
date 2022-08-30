@@ -1,7 +1,7 @@
 package com.ably.tracking.demo.subscriber.data.api
 
 import com.ably.tracking.demo.subscriber.BuildConfig
-import com.ably.tracking.demo.subscriber.domain.GeoCoordinates
+import com.ably.tracking.demo.subscriber.domain.orders.GeoCoordinates
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

@@ -2,8 +2,8 @@ package com.ably.tracking.demo.subscriber.presentation.screen.createorder
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ably.tracking.demo.subscriber.domain.GeoCoordinates
-import com.ably.tracking.demo.subscriber.domain.OrderManager
+import com.ably.tracking.demo.subscriber.domain.orders.GeoCoordinates
+import com.ably.tracking.demo.subscriber.domain.orders.OrderManager
 import com.ably.tracking.demo.subscriber.presentation.navigation.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

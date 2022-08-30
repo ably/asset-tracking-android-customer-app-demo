@@ -1,6 +1,7 @@
 package com.ably.tracking.demo.subscriber.secrets
 
 import com.ably.tracking.demo.subscriber.data.api.FakeDeliveryServiceDataSource
+import com.ably.tracking.demo.subscriber.domain.secrets.InMemorySecretsManager
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

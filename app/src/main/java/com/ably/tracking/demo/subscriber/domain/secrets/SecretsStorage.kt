@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.secrets
+package com.ably.tracking.demo.subscriber.domain.secrets
 
 interface SecretsStorage {
     fun readUsername(): String?

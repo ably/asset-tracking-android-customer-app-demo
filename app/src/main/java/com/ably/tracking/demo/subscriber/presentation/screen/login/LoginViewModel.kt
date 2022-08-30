@@ -2,8 +2,8 @@ package com.ably.tracking.demo.subscriber.presentation.screen.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ably.tracking.demo.subscriber.domain.secrets.SecretsManager
 import com.ably.tracking.demo.subscriber.presentation.navigation.Navigator
-import com.ably.tracking.demo.subscriber.secrets.SecretsManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 

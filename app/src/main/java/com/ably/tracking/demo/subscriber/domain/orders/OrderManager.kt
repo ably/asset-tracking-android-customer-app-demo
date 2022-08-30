@@ -1,9 +1,9 @@
-package com.ably.tracking.demo.subscriber.domain
+package com.ably.tracking.demo.subscriber.domain.orders
 
 import com.ably.tracking.TrackableState
 import com.ably.tracking.demo.subscriber.data.ably.AssetTracker
-import com.ably.tracking.demo.subscriber.data.api.DeliveryServiceDataSource
-import com.ably.tracking.demo.subscriber.secrets.SecretsManager
+import com.ably.tracking.demo.subscriber.domain.DeliveryServiceDataSource
+import com.ably.tracking.demo.subscriber.domain.secrets.SecretsManager
 import kotlinx.coroutines.flow.map
 
 class OrderManager(

@@ -1,4 +1,4 @@
-package com.ably.tracking.demo.subscriber.data
+package com.ably.tracking.demo.subscriber.presentation
 
 import android.annotation.SuppressLint
 import android.content.Context
