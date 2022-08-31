@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 class AssetTracker {
 
-    private lateinit var subscriber: Subscriber
+    private var subscriber: Subscriber? = null
 
     lateinit var trackableId: String
 
@@ -46,27 +46,29 @@ class AssetTracker {
             }
         )
 
-    fun observeTrackableState(): Flow<TrackableState> = subscriber.trackableStates
+    fun observeTrackableState(): Flow<TrackableState> = subscriber!!.trackableStates
 
-    fun observeTrackableLocation(): Flow<LocationUpdate> = subscriber.locations
+    fun observeTrackableLocation(): Flow<LocationUpdate> = subscriber!!.locations
 
-    fun observeResolution(): Flow<Resolution> = subscriber.resolutions
+    fun observeResolution(): Flow<Resolution> = subscriber!!.resolutions
 
     suspend fun setForegroundResolution() {
-        if (this::subscriber.isInitialized) {
+        subscriber?.let {
             Log.d("AssetTracker", "Setting foreground resolution")
-            subscriber.resolutionPreference(foregroundResolution)
+            it.resolutionPreference(foregroundResolution)
         }
     }
 
     suspend fun setBackgroundResolution() {
-        if (this::subscriber.isInitialized) {
+        subscriber?.let {
             Log.d("AssetTracker", "Setting background resolution")
-            subscriber.resolutionPreference(backgroundResolution)
+            it.resolutionPreference(backgroundResolution)
         }
     }
 
     suspend fun stopTracking() {
-        subscriber.stop()
+        Log.d("AssetTracker", "Stopping the subscriber")
+        subscriber?.stop()
+        subscriber = null
     }
 }
