@@ -33,9 +33,7 @@ internal class ApiDeliveryServiceDataSourceTest {
         val result = deliveryServiceApiSource.createOrder(authorizationHeader, from, to)
 
         // then
-        assertThat(result.id)
-            .isNotNull()
-        assertThat(result.ablyToken)
+        assertThat(result)
             .isNotNull()
     }
 }

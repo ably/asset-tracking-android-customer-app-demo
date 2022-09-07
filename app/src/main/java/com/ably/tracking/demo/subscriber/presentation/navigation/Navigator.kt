@@ -17,8 +17,8 @@ class Navigator {
         navController.navigate(Routes.CreateOrder.path, navOptions)
     }
 
-    fun navigateToDashboard() {
-        navController.navigate(Routes.Dashboard.path)
+    fun navigateToDashboard(orderId: String) {
+        navController.navigate(Routes.Dashboard.path + orderId)
     }
 
     fun navigateToOrderArrived() {

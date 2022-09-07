@@ -2,7 +2,6 @@ package com.ably.tracking.demo.subscriber.data.api
 
 import com.ably.tracking.demo.subscriber.domain.DeliveryServiceDataSource
 import com.ably.tracking.demo.subscriber.domain.orders.GeoCoordinates
-import com.ably.tracking.demo.subscriber.domain.orders.Order
 
 class ApiDeliveryServiceDataSource(private val deliveryServiceApi: DeliveryServiceApi) :
     DeliveryServiceDataSource {
@@ -14,12 +13,12 @@ class ApiDeliveryServiceDataSource(private val deliveryServiceApi: DeliveryServi
     override suspend fun getMapboxToken(authBase64: String) =
         deliveryServiceApi.getMapboxToken(AUTHORIZATION_HEADER_PREFIX + authBase64).token
 
+    override suspend fun getAblyToken(authBase64: String): String =
+        deliveryServiceApi.getAblyToken(AUTHORIZATION_HEADER_PREFIX + authBase64).token
+
     override suspend fun createOrder(authBase64: String, from: GeoCoordinates, to: GeoCoordinates) =
         deliveryServiceApi.createOrder(
             AUTHORIZATION_HEADER_PREFIX + authBase64,
             CreateOrderBody(from, to)
-        ).toOrder()
-
-    private fun CreateOrderResponse.toOrder() =
-        Order(orderId.toString(), ably.token)
+        ).orderId.toString()
 }

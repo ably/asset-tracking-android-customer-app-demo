@@ -37,5 +37,8 @@ class InMemorySecretsManager(
 
     override fun getMapboxToken(): String = secrets[MAPBOX_TOKEN_KEY] ?: ""
 
+    override suspend fun getAblyToken(): String =
+        deliveryServiceDataSource.getAblyToken(getAuthorizationHeader()!!)
+
     private fun readAuthorization() = secretsStorage.readAuthorization()!!
 }

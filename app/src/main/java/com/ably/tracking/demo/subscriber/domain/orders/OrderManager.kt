@@ -11,24 +11,21 @@ class OrderManager(
     private val assetTracker: AssetTracker,
     private val secretsManager: SecretsManager
 ) {
-    suspend fun createOrder(from: GeoCoordinates, to: GeoCoordinates) {
+    suspend fun createOrder(from: GeoCoordinates, to: GeoCoordinates): String {
         val authenticationHeader = secretsManager.getAuthorizationHeader()!!
-        val authUsername = secretsManager.getUsername()!!
-        val (orderId, ablyToken) = deliveryServiceDataSource.createOrder(
-            authenticationHeader,
-            from,
-            to
-        )
-        assetTracker.startTracking(orderId, ablyToken, authUsername)
+        return deliveryServiceDataSource.createOrder(authenticationHeader, from, to)
     }
 
-    fun observeOrder() =
-        OrderData(
+    suspend fun startTrackingOrder(orderId: String): OrderData {
+        val authUsername = secretsManager.getUsername()!!
+        assetTracker.startTracking(orderId, authUsername)
+        return OrderData(
             orderId = assetTracker.trackableId,
             orderState = assetTracker.observeTrackableState().map { it.toOrderState() },
             orderLocation = assetTracker.observeTrackableLocation(),
             resolution = assetTracker.observeResolution()
         )
+    }
 
     private fun TrackableState.toOrderState(): OrderState =
         when (this) {

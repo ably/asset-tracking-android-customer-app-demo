@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class DashboardViewModel(
+    private val orderId: String,
     private val navigator: Navigator,
     private val orderManager: OrderManager,
     private val assetTrackerAnimator: AssetTrackerAnimator,
@@ -51,7 +52,7 @@ class DashboardViewModel(
     }
 
     private suspend fun CoroutineScope.beginTracking() {
-        val orderData = orderManager.observeOrder()
+        val orderData = orderManager.startTrackingOrder(orderId)
 
         updateState {
             copy(

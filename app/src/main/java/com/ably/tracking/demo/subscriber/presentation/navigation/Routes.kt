@@ -11,7 +11,9 @@ sealed interface Routes {
     }
 
     object Dashboard : Routes {
+        const val paramOrderId = "orderId"
         const val path = "dashboard/"
+        const val pathWithParams = "dashboard/{$paramOrderId}"
     }
 
     object OrderArrived : Routes {
