@@ -2,7 +2,6 @@ package com.ably.tracking.demo.subscriber.data.api
 
 import com.ably.tracking.demo.subscriber.domain.DeliveryServiceDataSource
 import com.ably.tracking.demo.subscriber.domain.orders.GeoCoordinates
-import com.ably.tracking.demo.subscriber.domain.orders.Order
 import kotlin.random.Random
 
 class FakeDeliveryServiceDataSource : DeliveryServiceDataSource {
@@ -19,12 +18,17 @@ class FakeDeliveryServiceDataSource : DeliveryServiceDataSource {
         return mapboxToken
     }
 
+    override suspend fun getAblyToken(authBase64: String): String {
+        lastAuthorizationHeader = authBase64
+        return ablyToken
+    }
+
     override suspend fun createOrder(
         authBase64: String,
         from: GeoCoordinates,
         to: GeoCoordinates
-    ): Order {
+    ): String {
         lastAuthorizationHeader = authBase64
-        return Order(Random.nextInt().toString(), ablyToken)
+        return Random.nextInt().toString()
     }
 }

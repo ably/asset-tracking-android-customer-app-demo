@@ -6,4 +6,5 @@ interface SecretsManager {
     fun getUsername(): String?
     fun getAuthorizationHeader(): String?
     fun getMapboxToken(): String
+    suspend fun getAblyToken(): String
 }

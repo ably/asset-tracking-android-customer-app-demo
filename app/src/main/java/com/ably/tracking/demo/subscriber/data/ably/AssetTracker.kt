@@ -7,10 +7,11 @@ import com.ably.tracking.Resolution
 import com.ably.tracking.TrackableState
 import com.ably.tracking.connection.Authentication
 import com.ably.tracking.connection.ConnectionConfiguration
+import com.ably.tracking.demo.subscriber.domain.secrets.SecretsManager
 import com.ably.tracking.subscriber.Subscriber
 import kotlinx.coroutines.flow.Flow
 
-class AssetTracker {
+class AssetTracker(private val secretsManager: SecretsManager) {
 
     private var subscriber: Subscriber? = null
 
@@ -28,21 +29,21 @@ class AssetTracker {
         minimumDisplacement = 10.0
     )
 
-    suspend fun startTracking(orderId: String, ablyToken: String, authUsername: String) {
+    suspend fun startTracking(orderId: String, authUsername: String) {
         trackableId = orderId
         Log.d("AssetTracker", "Starting subscriber")
         subscriber = Subscriber.subscribers()
-            .connection(connectionConfiguration(ablyToken, authUsername))
+            .connection(connectionConfiguration(authUsername))
             .resolution(foregroundResolution)
             .logHandler(SubscriberLogHandler)
             .trackingId(orderId)
             .start()
     }
 
-    private fun connectionConfiguration(ablyToken: String, authUsername: String) =
+    private fun connectionConfiguration(authUsername: String) =
         ConnectionConfiguration(
             Authentication.jwt(authUsername) {
-                ablyToken
+                secretsManager.getAblyToken()
             }
         )
 

@@ -48,14 +48,14 @@ class CreateOrderViewModel(
             copy(showProgress = true)
         }
         val createOrderScreenState = state.value
-        orderManager.createOrder(
+        val orderId = orderManager.createOrder(
             createOrderScreenState.parseFromCoordinates(),
             createOrderScreenState.parseToCoordinates()
         )
         updateState {
             copy(showProgress = false)
         }
-        navigator.navigateToDashboard()
+        navigator.navigateToDashboard(orderId)
     }
 
     private fun CreateOrderScreenState.parseFromCoordinates() =

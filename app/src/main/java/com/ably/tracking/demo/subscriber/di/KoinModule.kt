@@ -29,7 +29,7 @@ import org.koin.dsl.module
 val appModule = module {
     viewModel { LoginViewModel(get(), get()) }
 
-    viewModel { DashboardViewModel(get(), get(), get(), get()) }
+    viewModel { DashboardViewModel(get(), get(), get(), get(), get()) }
 
     viewModel { CreateOrderViewModel(get(), get()) }
 
@@ -39,7 +39,7 @@ val appModule = module {
 
     single { FusedLocationSource(get()) }
 
-    single { AssetTracker() }
+    single { AssetTracker(get()) }
 
     single { AssetTrackerAnimator(get()) }
 

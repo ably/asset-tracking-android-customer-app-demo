@@ -51,7 +51,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import org.koin.androidx.compose.getViewModel
 
 @ExperimentalPermissionsApi
 @OptIn(ExperimentalMaterialApi::class)
@@ -59,7 +58,7 @@ import org.koin.androidx.compose.getViewModel
 fun DashboardScreen(
     locationSource: FusedLocationSource,
     navController: NavController,
-    dashboardViewModel: DashboardViewModel = getViewModel()
+    dashboardViewModel: DashboardViewModel
 ) =
     AATSubscriberDemoTheme {
         val viewState: State<DashboardScreenState> = dashboardViewModel.state.collectAsState()

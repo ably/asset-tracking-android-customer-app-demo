@@ -14,6 +14,9 @@ interface DeliveryServiceApi {
     @GET("mapbox")
     suspend fun getMapboxToken(@Header(AUTHORIZATION_HEADER_NAME) authorizationHeader: String): TokenResponse
 
+    @GET("ably")
+    suspend fun getAblyToken(@Header(AUTHORIZATION_HEADER_NAME) authorizationHeader: String): TokenResponse
+
     @POST("orders")
     suspend fun createOrder(
         @Header(AUTHORIZATION_HEADER_NAME) authorizationHeader: String,
